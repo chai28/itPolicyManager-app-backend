@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const SubscribedPolicy = require("../models/subscribed_policy.model.js");
-const User = require("../models/user.model.js");
 const Company = require("../models/company.model.js");
+const User = mongoose.model('User');
 
 
 exports.signInGet = (req, res) => {
@@ -19,11 +18,10 @@ exports.signInPost = (req, res) => {
         })
     } else {
         // res.send(LoginInfo);
-        // let NewCompany = new Company
-        User.findOne(LoginInfo.username, function (err, response) {
-            res.send();
-            console.log(response);
-            if (err) {
+        User.findOne({username: LoginInfo.username}, function (error, response) {
+            console.log("response: " + response);
+            console.log("error: " + error);
+            if (error) {
                 res.json({
                     message: "No UserName matched for: " + response
                 })
