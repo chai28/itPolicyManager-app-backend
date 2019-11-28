@@ -25,29 +25,29 @@ exports.signInPost = (req, res) => {
                 res.json({
                     message: "No UserName matched for: " + response
                 })
-            }; //else {
-            //         res.send({
-            //             "password": LoginInfo.password
-            //         });
-            //         newCompany.User.findOne({
-            //             username: LoginInfo.username
-            //         }, "password", function (err, response) {
-            //             if (err) {
-            //                 res.json(err)
-            //             } else {
-            //                 if (response === LoginInfo.password) {
-            //                     //direct to dashboard
-            //                     res.json({
-            //                         message: "Welcome " + LoginInfo.username + "!"
-            //                     })
-            //                 } else {
-            //                     res.json({
-            //                         message: "Wrong username or password!"
-            //                     })
-            //                 }
-            //             };
-            //         })
-            //     };
+            } else {
+                    // res.send({
+                    //     "password": LoginInfo.password
+                    // });
+                    User.findOne({
+                        username: LoginInfo.username
+                    },  function (err, response) {
+                        if (err) {
+                            res.json(err)
+                        } else {
+                            if (response.password === LoginInfo.password) {
+                                //direct to dashboard
+                                res.json({
+                                    message: "Welcome " + LoginInfo.username + "!"
+                                })
+                            } else {
+                                res.json({
+                                    message: "Wrong username or password!"
+                                })
+                            }
+                        };
+                    })
+                };
         });
     };
 };
