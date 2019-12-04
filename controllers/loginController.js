@@ -26,9 +26,6 @@ exports.signInPost = (req, res) => {
                     message: "No UserName matched for: " + response
                 })
             } else {
-                    // res.send({
-                    //     "password": LoginInfo.password
-                    // });
                     User.findOne({
                         username: LoginInfo.username
                     },  function (err, response) {

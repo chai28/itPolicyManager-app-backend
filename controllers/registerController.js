@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Company = require("../models/company.model.js");
 const User = mongoose.model('User');
+
 //generate username
 function setupUsername(bNameInput,nzbnInput){
     //remove space
@@ -23,6 +24,7 @@ function changeUppercase(inputString){
     inputString=inputString+capital;
     return inputString;
 }
+
 //generate password
 function setupPassword(){
     var length = 8,
