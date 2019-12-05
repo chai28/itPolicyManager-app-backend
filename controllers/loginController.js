@@ -35,11 +35,14 @@ exports.signInPost = (req, res) => {
                             if (response.password === LoginInfo.password) {
                                 //direct to dashboard
                                 res.json({
-                                    message: "Welcome " + LoginInfo.username + "!"
+                                    message: "Welcome " + response.username,
+                                    value: true
                                 })
+
                             } else {
                                 res.json({
-                                    message: "Wrong username or password!"
+                                    message: "Wrong username or password!",
+                                    value: false
                                 })
                             }
                         };

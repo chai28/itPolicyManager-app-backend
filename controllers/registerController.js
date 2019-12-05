@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Company = require("../models/company.model.js");
 const User = mongoose.model('User');
+const Nodemailer = require('nodemailer');
 
 //generate username
 function setupUsername(bNameInput,nzbnInput){
@@ -35,6 +36,17 @@ function setupPassword(){
     }
     return pass;
 }
+
+// Email Notification for Registration 
+//set up transporter
+const transporter = Nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: 'itpsychiatrist.policymanager@gmail.com',
+           pass: 'Aspire2CKD'
+       }
+});
+
 
 exports.registerGet = (req, res) => {
     res.send({
@@ -85,7 +97,24 @@ exports.registerPost = (req, res) => {
                         })
                         console.log(NewUser);
                         NewUser.save(function(err){
-                            
+                          //set up email content
+                            const mailOptions = {
+                                from: 'itpsychiatrist.policymanager@gmail.com', // sender address
+                                to: NewCompany.company_email, // list of receivers
+                                subject: 'Your IT Policy Manager Login Credentials', // Subject line
+                                html: '<h2>Welcome to IT Policy Manager!</h2>' + '<p> Thank you for registering. <br>' +
+                                'Below is your login details, use these credential to acces your IT Policy Manager Account.<br><br>' +
+                                'User Name:' + NewUser.username + ' <br> Temporary Password: ' + NewUser.password + ' </p>' +
+                                '<p>Please click on the link to sign-in. </p> <a href="http://localhost:3000/signin-page">IT Policy Manager Login</a>  '
+                            };
+                            transporter.sendMail(mailOptions, function (err, info) {
+                                if(err)
+                                console.log(err)
+                                else
+                                console.log(info);
+                            });
+
+
                         })
                         res.json({
                             message: "Registration Successful!"
