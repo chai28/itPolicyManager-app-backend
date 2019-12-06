@@ -1,8 +1,6 @@
 require("../models/company.model.js");
 const mongoose = require('mongoose'); 
 const User = mongoose.model('User');
-//var cookieParser = require('cookie-parser');
-var session = require('express-session');
 
 exports.addKeyContactGet = (req, res) => {
     res.send({

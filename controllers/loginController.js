@@ -6,11 +6,11 @@ const User = mongoose.model('User');
 
 
 exports.signInGet = (req, res) => {
-    
+
     res.send({
         message: "Get is working"
     });
-    
+
 };
 
 exports.signInPost = (req, res) => {
@@ -22,7 +22,9 @@ exports.signInPost = (req, res) => {
         })
     } else {
         // res.send(LoginInfo);
-        User.findOne({username: LoginInfo.username}, function (error, response) {
+        User.findOne({
+            username: LoginInfo.username
+        }, function (error, response) {
             console.log("response: " + response);
             console.log("error: " + error);
             if (error) {
@@ -30,33 +32,28 @@ exports.signInPost = (req, res) => {
                     message: "No UserName matched for: " + response
                 })
             } else {
-                    User.findOne({
-                        username: LoginInfo.username
-                    },  function (err, response) {
-                        if (err) {
-                            res.json(err)
-                        } else {
-                            if (response.password === LoginInfo.password) {
-                                res.json({
-<<<<<<< HEAD
-                                    message: "Welcome " + response.username,
-                                    value: true
-=======
-                                    message: "Welcome " + LoginInfo.username,
-                                    value: true,
-                                    userId:response._id
->>>>>>> a74bb7af9f472d7919056ea64bac778d40c93d57
-                                })
+                User.findOne({
+                    username: LoginInfo.username
+                }, function (err, response) {
+                    if (err) {
+                        res.json(err)
+                    } else {
+                        if (response.password === LoginInfo.password) {
+                            res.json({
+                                message: "Welcome " + LoginInfo.username,
+                                value: true,
+                                userId: response._id
+                            })
 
-                            } else {
-                                res.json({
-                                    message: "Wrong username or password!",
-                                    value: false
-                                })
-                            }
-                        };
-                    })
-                };
+                        } else {
+                            res.json({
+                                message: "Wrong username or password!",
+                                value: false
+                            })
+                        }
+                    };
+                })
+            };
         });
     };
 };
