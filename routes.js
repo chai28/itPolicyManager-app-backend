@@ -5,6 +5,7 @@ const router = express.Router();
 const loginController = require('./controllers/loginController');
 const registerController = require('./controllers/registerController');
 const questionController = require('./controllers/questionController');
+const addKeyContactController=require('./controllers/addKeyContactController');
 
 //Login
 router.get('/signin', loginController.signInGet);
@@ -19,5 +20,8 @@ router.post('/register', registerController.registerPost);
 router.get('/questions', questionController.questionsGet);
 router.post('/questions', questionController.questionsPost);
 
+//add key contact
+router.get('/addKeyContact', addKeyContactController.addKeyContactGet);
+router.post('/addKeyContact', addKeyContactController.addKeyContactPost);
 
 module.exports = router;
