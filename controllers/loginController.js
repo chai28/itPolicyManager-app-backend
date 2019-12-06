@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
 const Company = require("../models/company.model.js");
 const User = mongoose.model('User');
+// var session = require('express-session');
+// const FileStore = require('session-file-store')(session);
 
 
 exports.signInGet = (req, res) => {
+    
     res.send({
         message: "Get is working"
     });
+    
 };
 
 exports.signInPost = (req, res) => {
@@ -33,10 +37,15 @@ exports.signInPost = (req, res) => {
                             res.json(err)
                         } else {
                             if (response.password === LoginInfo.password) {
-                                //direct to dashboard
                                 res.json({
+<<<<<<< HEAD
                                     message: "Welcome " + response.username,
                                     value: true
+=======
+                                    message: "Welcome " + LoginInfo.username,
+                                    value: true,
+                                    userId:response._id
+>>>>>>> a74bb7af9f472d7919056ea64bac778d40c93d57
                                 })
 
                             } else {
