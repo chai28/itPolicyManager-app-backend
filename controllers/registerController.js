@@ -119,8 +119,10 @@ exports.registerPost = (req, res) => {
                         })
                         res.json({
                             message: "Registration Successful!",
-                            value:true
+                            value:true,
+                            id: companyId
                         })
+                        console.log("res: "+res.id);
                     }
                 })
             }else{

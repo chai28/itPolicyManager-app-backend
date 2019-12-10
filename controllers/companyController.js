@@ -11,9 +11,11 @@ exports.companyGet = (req, res) => {
 
 exports.companyPost = (req, res) => {
     let matchPolicy= req.body;
-    Company.findOneAndUpdate({_id: matchPolicy.id}, {match_policy: matchPolicy.policies}, function(err, response) {
+    console.log(matchPolicy.policies);
+    console.log("company id: "+matchPolicy.id);
+    Company.findByIdAndUpdate(matchPolicy.id, {"$push": { "match_policy": matchPolicy.policies } }, function(err, response) {
         if(!err){
-        console.log(response);
+        //console.log(response);
         }else{
             console.log(err);
         }
