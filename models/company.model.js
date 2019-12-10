@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+require("../models/policy.model.js");
+const Policy = mongoose.model('Policy');
 //company collection
 const companySchema = new Schema({
   company_name: String,
@@ -18,6 +19,10 @@ const companySchema = new Schema({
   subscribed_policy: [{
     type: Schema.Types.ObjectId,
     ref: 'SubscribedPolicy'
+  }],
+  match_policy: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Policy'
   }]
 });
 

@@ -86,7 +86,8 @@ exports.registerPost = (req, res) => {
                 NewCompany.save(function(err, Company){
                     if(err){
                         res.json({
-                            message: "Registration failed!"
+                            message: "Registration failed!",
+                            value:false
                         })
                     }else{
                         var NewUser=new User({
@@ -117,13 +118,15 @@ exports.registerPost = (req, res) => {
 
                         })
                         res.json({
-                            message: "Registration Successful!"
+                            message: "Registration Successful!",
+                            value:true
                         })
                     }
                 })
             }else{
                 res.json({
-                    message: "Company already existed! Login Instead"
+                    message: "Company already existed! Login Instead",
+                    value:false
                 })
             }
         });
