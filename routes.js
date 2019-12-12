@@ -8,6 +8,7 @@ const questionController = require('./controllers/questionController');
 const addKeyContactController=require('./controllers/addKeyContactController');
 const createPaymentController=require('./controllers/createPaymentController');
 const companyController=require('./controllers/companyController');
+const policyController=require('./controllers/policyController');
 
 //Login
 router.get('/signin', loginController.signInGet);
@@ -17,6 +18,10 @@ router.post('/signin', loginController.signInPost);
 //Register
 router.get('/register', registerController.registerGet);
 router.post('/register', registerController.registerPost);
+
+//policy 
+router.get('/policies',policyController.policiesGet);
+router.post('/policies',policyController.policiesPost);
 
 //get questions
 router.get('/questions', questionController.questionsGet);

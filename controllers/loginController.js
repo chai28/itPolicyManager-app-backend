@@ -42,7 +42,8 @@ exports.signInPost = (req, res) => {
                             res.json({
                                 message: "Welcome " + LoginInfo.username,
                                 value: true,
-                                userId: response._id
+                                userId: response._id,
+                                userType: response.user_type
                             })
 
                         } else {
