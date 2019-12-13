@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 //company collection
 const questionsSchema = new Schema({
     question_content: String,
-    option: [{
+    options: [{
       name:String,
       policy:{
         type:Schema.Types.ObjectId,
