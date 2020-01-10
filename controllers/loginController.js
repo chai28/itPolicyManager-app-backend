@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Company = require("../models/company.model.js");
 const User = mongoose.model('User');
+const CompanyDetails = mongoose.model('Company');
 // var session = require('express-session');
 // const FileStore = require('session-file-store')(session);
 
@@ -35,24 +36,34 @@ exports.signInPost = (req, res) => {
                 User.findOne({
                     username: LoginInfo.username
                 }, function (err, response) {
+                    console.log("response: " + response);
                     if (err) {
                         res.json(err)
                     } else {
                         if (response.password === LoginInfo.password) {
-                            res.json({
-                                message: "Welcome " + LoginInfo.username,
-                                value: true,
-                                userId: response._id,
-                                userType: response.user_type
+                            //company name
+                            CompanyDetails.findOne({
+                                _id: response.company
+                            },function (err, response2) {
+                                if (err) {
+                                    res.json(err)
+                                } else {
+                                    res.json({
+                                        message: "Welcome " + LoginInfo.username,
+                                        value: true,
+                                        userId: response._id,
+                                        userType: response.user_type,
+                                        company_name: response2.company_name
+                                    })
+                                }
                             })
-
                         } else {
                             res.json({
                                 message: "Wrong username or password!",
                                 value: false
-                            })
-                        }
-                    };
+                            })  
+                        } 
+                    }
                 })
             };
         });
