@@ -21,7 +21,7 @@ exports.editProfileGet = (req, res) => {
                         } else {
                             res.json({
                                 companyDetails,
-                                message: "editProfilePost is working"
+                                message: "editProfileGet is working"
                             });
                         }
 
@@ -31,38 +31,38 @@ exports.editProfileGet = (req, res) => {
             }
 
         });
-    // res.json({
-    //     message: "editProfileGet is working"
-    // })
-
 };
 
 exports.editProfilePost = (req, res) => {
-    // console.log("id: " + req.body.user_id);
-    // User.findOne({
-    //         _id: req.body.user_id
-    //     },
-    //     function (err, res) {
-    //         if (!err) {
-    //             console.log("company ID: " + res.company);
-    //             Company.findById({
-    //                     _id: res.company
-    //                 },
-    //                 function (err, response) {
-    //                     console.log("companyInfo: " + response);
-    //                     if (err) {
-    //                         res.json(err);
-    //                     } else {
-    //                         res.json({
-    //                             company_name: response.company_name,
-    //                             message: "editProfilePost is working"
-    //                         });
-    //                     }
+    console.log("company id: " + req.body._id);
+    console.log(req.body);
+    let companyInfo = req.body;
 
-    //                 });
-    //         } else {
-    //             console.log(err);
-    //         }
+    Company.findById({
+            "_id": companyInfo._id
+        },
+        function (err, response) {
+            if (err) {
+                console.log(err);
+            } else {
+                Company.updateOne({
+                    company_name: companyInfo.company_name,
+                    company_email: companyInfo.company_email,
+                    nzbn: companyInfo.nzbn,
+                    address: companyInfo.address,
+                    contact: companyInfo.contact,
+                    description: companyInfo.description
+                }, function (err, response) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.json({
+                            message: "editProfilePost is working"
+                        });
 
-    //     });
+                    }
+                })
+            }
+        })
+
 }
