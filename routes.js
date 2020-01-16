@@ -9,7 +9,9 @@ const addKeyContactController=require('./controllers/addKeyContactController');
 const createPaymentController=require('./controllers/createPaymentController');
 const companyController=require('./controllers/companyController');
 const policyController=require('./controllers/policyController');
-
+const subscribedPolicyController=require('./controllers/subscribedPolicyController');
+const surveyResultController=require('./controllers/surveyResultController');
+const logoutController=require('./controllers/logoutController');
 //Login
 router.get('/signin', loginController.signInGet);
 router.post('/signin', loginController.signInPost);
@@ -38,5 +40,16 @@ router.post('/create_paymentintent',createPaymentController.createPaymentPost);
 //match policy 
 router.get('/company',companyController.companyGet);
 router.post('/company',companyController.companyPost);
+
+//match policy or survey result
+router.get('/surveyResult',surveyResultController.surveyResultGet);
+router.post('/surveyResult',surveyResultController.surveyResultPost);
+
+//subscribed policy
+router.get('/subscribedPolicy',subscribedPolicyController.subscribedPolicyGet);
+router.post('/subscribedPolicy',subscribedPolicyController.subscribedPolicyPost);
+
+//logout
+router.get('/logout',logoutController.logout);
 
 module.exports = router;

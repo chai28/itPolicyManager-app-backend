@@ -27,6 +27,6 @@ exports.questionsPost = (req, res) => {
 
     
     res.send({
-        message: "Register Post is working"
+        message: " Post is working"
     });
 };

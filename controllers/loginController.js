@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const Company = require("../models/company.model.js");
 const User = mongoose.model('User');
 const CompanyDetails = mongoose.model('Company');
-// var session = require('express-session');
+var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
+
+
 // const FileStore = require('session-file-store')(session);
 
 
@@ -48,6 +51,9 @@ exports.signInPost = (req, res) => {
                                 if (err) {
                                     res.json(err)
                                 } else {
+                                    sess=req.session;
+                                    sess.userId=response._id;
+                                    sess.cpmpanyId=response.company;
                                     res.json({
                                         message: "Welcome " + LoginInfo.username,
                                         value: true,

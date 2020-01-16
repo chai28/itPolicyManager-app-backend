@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const Company = require("../models/company.model.js");
+ require("../models/company.model.js");
 const User = mongoose.model('User');
+const Company = mongoose.model('Company');
 const Nodemailer = require('nodemailer');
 
 //generate username
@@ -96,6 +97,12 @@ exports.registerPost = (req, res) => {
                             username:username,
                             password:password
                         })
+                    //     Company.findById(companyId, function(err,goalCompany) {
+                    //        numberOfUsers=goalCompany.user.length;
+                    //        goalCompany.user[numberOfUsers]=NewUser._id;
+                    //        goalCompany.save()
+                    //    });
+
                         console.log(NewUser);
                         NewUser.save(function(err){
                           //set up email content

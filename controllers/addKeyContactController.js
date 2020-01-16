@@ -1,6 +1,7 @@
 require("../models/company.model.js");
 const mongoose = require('mongoose'); 
 const User = mongoose.model('User');
+const Company = mongoose.model('Company');
 
 exports.addKeyContactGet = (req, res) => {
     res.send({
@@ -42,7 +43,15 @@ exports.addKeyContactPost = (req, res) => {
                             value:true
                         })
                     })
-                    
+                    // Company.findById(response.company, function(err,goalCompany) {
+                    //     numberOfUsers=goalCompany.user.length;
+                    //     console.log(numberOfUsers);
+                    //    goalCompany.user[numberOfUsers]=NewUser._id;
+                    //    console.log(goalCompany.user[numberOfUsers]);
+                    //    console.log(goalCompany);
+                    //     goalCompany.save()
+                    // });
+                      
                  }else{
                     res.json({
                         message: "User already exists",

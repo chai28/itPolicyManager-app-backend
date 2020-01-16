@@ -4,17 +4,46 @@ const mongoose = require('mongoose');
 //const cookieParser = require('cookie-parser');
 // const session = require('express-session');
 // const FileStore = require('session-file-store')(session);
-require('dotenv').config();
+var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session);
 
 // Define routes here
 const indexRoute = require('./routes');
-
 
 // invoke express on port 5000
 const app = express();
 const port = process.env.PORT || 5000;
 
-mongoose.connect('mongodb://127.0.0.1:27017/it_psych_db', {
+require('dotenv').config();
+
+
+var store = new MongoDBStore(
+    {
+        uri: process.env.DATABASE_URL,
+        collection: 'sessions',
+        unset: 'destroy'
+    }
+);
+
+store.on('error', function(error) {
+    console.log(error);
+  });
+
+app.use(session({
+    secret: 'Somesercrets',
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 *1  // 1 day
+    },
+   //store: store,
+    resave: true,
+    saveUninitialized: false
+  }));
+
+  
+   
+
+
+mongoose.connect( process.env.DATABASE_URL, {
     useNewUrlParser: true
 });
 const connection = mongoose.connection;
@@ -59,4 +88,4 @@ app.listen(port, function () {
 });
 
 module.exports = app;
-// module.exports=session;
+
