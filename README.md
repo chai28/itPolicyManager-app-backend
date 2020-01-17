@@ -13,3 +13,5 @@ $npm install connect-mongodb-session express-session
 $ npm install uuid
 
 $npm install moment --save
+
+$npm install express-session connect-mongodb-session
