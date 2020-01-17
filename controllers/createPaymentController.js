@@ -17,6 +17,9 @@ exports.createPaymentPost = async (req, res) => {
   console.log("Request:", req.body);
   let error;
   let status;
+
+
+
   try {
     const product = req.body.product;
     const token = req.body.token;
@@ -39,26 +42,29 @@ exports.createPaymentPost = async (req, res) => {
     console.log("Charge:", {
       charge
     });
-   // save subscribtion policy
-   function getPolicy(policyId){
-    policy.findById(policyId, function(err,goalPolicy){
-      policy=goalPolicy;
-    });
-    return policy;
-  }
-  policy1=getPolicy(product.subscribed_policy[1]);
-  policy2=getPolicy(product.subscribed_policy[2]);
-  Company.findOne({company_name:product.company_name}, function (error, company){
-      company.subscribed_policy[1].name=policy1.policy_name;
-      company.subscribed_policy[1].status="confirmation";
-      company.subscribed_policy[1]. accesslink="";
-      company.subscribed_policy[1].date_subscribed=moment().format("MMM Do YY");
-      company.subscribed_policy[1].date_subscribed=moment().add(12, 'M');
-      for( var j=0; j < policy1.content.length; j++){
-        company.subscribed_policy[1].content[j]=policy.content[j];
-      }
-      company.save();  
-  }) 
+
+  //   // save subscribtion policy
+  //   async function getPolicy(policyId){
+  //     let goalPolicy = await policy.findById(policyId);
+
+  //     return goalPolicy;
+  //   }
+
+  //   let policy1 = await getPolicy(product.subscribed_policy[0]);
+  //   let policy2 = await getPolicy(product.subscribed_policy[1]);
+  //   console.log("policyone1: "+policy1.policy_name);
+  //   console.log("policyone2: "+policy2);
+  // Company.findOne({company_name:product.company_name}, function (error, company){
+  //     company.subscribed_policy[0].name=policy1.policy_name;
+  //     company.subscribed_policy[0].status="confirmation";
+  //     company.subscribed_policy[0].accesslink="";
+  //     company.subscribed_policy[0].date_subscribed=moment().format("MMM Do YY");
+  //     company.subscribed_policy[0].date_subscribed=moment().add(12, 'M');
+  //     // for( var j=0; j < policy1.content.length; j++){
+  //     //   company.subscribed_policy[0].content[j]=policy.content[j];
+  //     // }
+  //     company.save();  
+  // }) 
     status = "success";
   } catch (error) {
     console.error("Error:", error);
