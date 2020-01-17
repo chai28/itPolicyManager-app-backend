@@ -1,23 +1,36 @@
 const mongoose = require('mongoose');
 require("../models/company.model.js");
 const Company = mongoose.model('Company');
+const User = mongoose.model('User');
 
 exports.companyGet = (req, res) => {
-    res.send({
-        message: "Get is working"
-    });
-
+    //Get user information to get the company ID
+    User.findOne({
+            _id: req.query._id
+        },
+        function (err, response) {
+            if (!err) {
+                console.log("company ID: " + response.company);
+                res.json(response);
+            } else {
+                console.log(err);
+            }
+        });
 };
 
 exports.companyPost = (req, res) => {
-    let matchPolicy= req.body;
+    let matchPolicy = req.body;
     console.log(matchPolicy.policies);
-    console.log("company id: "+matchPolicy.id);
-    Company.findByIdAndUpdate(matchPolicy.id, {"$push": { "match_policy": matchPolicy.policies } }, function(err, response) {
-        if(!err){
-        //console.log(response);
-        }else{
+    console.log("company id: " + matchPolicy.id);
+    Company.findByIdAndUpdate(matchPolicy.id, {
+        "$push": {
+            "match_policy": matchPolicy.policies
+        }
+    }, function (err, response) {
+        if (!err) {
+            //console.log(response);
+        } else {
             console.log(err);
         }
-     });
+    });
 }
