@@ -6,27 +6,24 @@ var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 
 exports.surveyResultGet = (req, res) => {
-    function getSurveyResult(company){
-        global.surveyResult=[];
-        for( var i=0; i < company.match_policy.length; i++){
-            policy.findById(company.match_policy[i], function(err,goalPolicy){
-               //console.log(goalPolicy);
-               surveyResult[i]=goalPolicy.policy_name;
-            //    surveyResult.push(goalPolicy);
-            console.log("survey result i: "+surveyResult[i]);
+    var surveyResult= [];
+    function getSurveyResult(company,i){
+        policy.findById(company.match_policy[i], function(err,goalPolicy){
+            surveyResult=goalPolicy.policy_name;
+            console.log("first log:"+surveyResult);
+            return surveyResult;
          });
-         console.log("survey result inside loop: "+surveyResult);
-        }
-        return surveyResult;
     }
-  var surveyResult= [];
+    
     Company.findOne({company_name:req.query.companyName}, function (error, company){
         if (error) {
             console.log("Error: " + error);
         } else {
-            surveyResult=getSurveyResult(company);
-            console.log(surveyResult);
-            res.json(surveyResult);
+         for(var j=1;j<company.match_policy.length;j++){
+            getSurveyResult(company,j);
+         }
+         console.log("second log:"+getSurveyResult(company,0)); 
+         res.json(surveyResult);
         }
     })
 };

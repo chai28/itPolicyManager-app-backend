@@ -7,3 +7,5 @@ $ npm install express body-parser cors mongoose axios
 $ npm install --save nodemailer
 
 $ npm install stripe
+
+$npm install connect-mongodb-session express-session

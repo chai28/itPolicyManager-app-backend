@@ -1,0 +1,68 @@
+const mongoose = require('mongoose');
+require("../models/company.model.js");
+const User = mongoose.model('User');
+const Company = mongoose.model('Company');
+
+exports.editProfileGet = (req, res) => {
+    console.log("id: " + req.query._id);
+    User.findOne({
+            _id: req.query._id
+        },
+        function (err, response) {
+            if (!err) {
+                console.log("company ID: " + response.company);
+                Company.findById({
+                        _id: response.company
+                    },
+                    function (err, companyDetails) {
+                        console.log("companyInfo: " + companyDetails);
+                        if (err) {
+                            res.json(err);
+                        } else {
+                            res.json({
+                                companyDetails,
+                                message: "editProfileGet is working"
+                            });
+                        }
+
+                    });
+            } else {
+                console.log(err);
+            }
+
+        });
+};
+
+exports.editProfilePost = (req, res) => {
+    console.log("company id: " + req.body._id);
+    console.log(req.body);
+    let companyInfo = req.body;
+
+    Company.findById({
+            "_id": companyInfo._id
+        },
+        function (err, response) {
+            if (err) {
+                console.log(err);
+            } else {
+                Company.updateOne({
+                    company_name: companyInfo.company_name,
+                    company_email: companyInfo.company_email,
+                    nzbn: companyInfo.nzbn,
+                    address: companyInfo.address,
+                    contact: companyInfo.contact,
+                    description: companyInfo.description
+                }, function (err, response) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.json({
+                            message: "editProfilePost is working"
+                        });
+
+                    }
+                })
+            }
+        })
+
+}
