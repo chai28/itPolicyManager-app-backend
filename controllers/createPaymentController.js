@@ -17,6 +17,9 @@ exports.createPaymentPost = async (req, res) => {
   console.log("Request:", req.body);
   let error;
   let status;
+
+
+
   try {
     const product = req.body.product;
     const token = req.body.token;
