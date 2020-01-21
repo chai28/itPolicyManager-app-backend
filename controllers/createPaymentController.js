@@ -17,7 +17,16 @@ exports.createPaymentPost = async (req, res) => {
   console.log("Request:", req.body);
   let error;
   let status;
+  async function getPolicy(policyId){
+    let goalPolicy = await policy.findById(policyId);
+    return goalPolicy;
+  }
 
+  async function ggg(policies) {
+    return Promise.all(policies.map(async (policy) => {
+      return await getPolicy(policy)
+    }));
+  }
 
 
   try {
@@ -42,58 +51,32 @@ exports.createPaymentPost = async (req, res) => {
     console.log("Charge:", {
       charge
     });
-<<<<<<< HEAD
 
     // save subscribtion policy
-    async function getPolicy(policyId){
-      let goalPolicy = await policy.findById(policyId);
+    
+    const subscibed_policies =  await ggg(product.policies)
+    console.log('kkkkkjkljljllk', subscibed_policies)
 
-      return goalPolicy;
-    }
+    subscibed_policies.forEach(policy => {
+      let subscribedPolicy = {
+        name: policy.policy_name,
+        status: "confirmation",
+        accesslink: "",
+        date_subscribed: moment(),
+        date_expired: moment().add(12, 'M'),
+        content: policy.content
+      }
 
-    let policy1 = await getPolicy(product.subscribed_policy[0]);
-    let policy2 = await getPolicy(product.subscribed_policy[1]);
-    console.log("policyone1: "+policy1.policy_name);
-    console.log("policyone2: "+policy2);
+      console.log("subscribedPolicy name: "+subscribedPolicy.name)
+      Company.findOne({company_name:product.name}, function (error, company) {
+        console.log("company: "+company);
+       company.subscribed_policy.push(subscribedPolicy);
+        company.save();
+        //remove match policy
+      }) 
+      status = "success";
+    })
   
-    let subscribedPolicy = {
-      name: policy1.policy_name,
-      status: "confirmation",
-      accesslink: "",
-      date_subscribed: moment(),
-      date_expired: moment().add(12, 'M'),
-      content: policy1.content
-    }
-    console.log("subscribedPolicy name: "+subscribedPolicy.name)
-    Company.findOne({company_name:product.company_name}, function (error, company){
-      console.log("company: "+company);
-     company.subscribed_policy.push(subscribedPolicy);
-      company.save();
-      //remove match policy
-  }) 
-=======
-    // save subscribtion policy
-    function getPolicy(policyId) {
-      policy.findById(policyId, function (err, goalPolicy) {
-        policy = goalPolicy;
-      });
-      return policy;
-    }
-    // policy1=getPolicy(product.subscribed_policy[1]);
-    // policy2=getPolicy(product.subscribed_policy[2]);
-    // Company.findOne({company_name:product.company_name}, function (error, company){
-    //     company.subscribed_policy[1].name=policy1.policy_name;
-    //     company.subscribed_policy[1].status="confirmation";
-    //     company.subscribed_policy[1]. accesslink="";
-    //     company.subscribed_policy[1].date_subscribed=moment().format("MMM Do YY");
-    //     company.subscribed_policy[1].date_subscribed=moment().add(12, 'M');
-    //     for( var j=0; j < policy1.content.length; j++){
-    //       company.subscribed_policy[1].content[j]=policy.content[j];
-    //     }
-    //     company.save();  
-    // }) 
->>>>>>> 9d743a893b49a762bafa5f81333cb131518813ac
-    status = "success";
   } catch (error) {
     console.error("Error:", error);
     status = "failure";
