@@ -43,28 +43,33 @@ exports.createPaymentPost = async (req, res) => {
       charge
     });
 
-  //   // save subscribtion policy
-  //   async function getPolicy(policyId){
-  //     let goalPolicy = await policy.findById(policyId);
+    // save subscribtion policy
+    async function getPolicy(policyId){
+      let goalPolicy = await policy.findById(policyId);
 
-  //     return goalPolicy;
-  //   }
+      return goalPolicy;
+    }
 
-  //   let policy1 = await getPolicy(product.subscribed_policy[0]);
-  //   let policy2 = await getPolicy(product.subscribed_policy[1]);
-  //   console.log("policyone1: "+policy1.policy_name);
-  //   console.log("policyone2: "+policy2);
-  // Company.findOne({company_name:product.company_name}, function (error, company){
-  //     company.subscribed_policy[0].name=policy1.policy_name;
-  //     company.subscribed_policy[0].status="confirmation";
-  //     company.subscribed_policy[0].accesslink="";
-  //     company.subscribed_policy[0].date_subscribed=moment().format("MMM Do YY");
-  //     company.subscribed_policy[0].date_subscribed=moment().add(12, 'M');
-  //     // for( var j=0; j < policy1.content.length; j++){
-  //     //   company.subscribed_policy[0].content[j]=policy.content[j];
-  //     // }
-  //     company.save();  
-  // }) 
+    let policy1 = await getPolicy(product.subscribed_policy[0]);
+    let policy2 = await getPolicy(product.subscribed_policy[1]);
+    console.log("policyone1: "+policy1.policy_name);
+    console.log("policyone2: "+policy2);
+  
+    let subscribedPolicy = {
+      name: policy1.policy_name,
+      status: "confirmation",
+      accesslink: "",
+      date_subscribed: moment(),
+      date_expired: moment().add(12, 'M'),
+      content: policy1.content
+    }
+    console.log("subscribedPolicy name: "+subscribedPolicy.name)
+    Company.findOne({company_name:product.company_name}, function (error, company){
+      console.log("company: "+company);
+     company.subscribed_policy.push(subscribedPolicy);
+      company.save();
+      //remove match policy
+  }) 
     status = "success";
   } catch (error) {
     console.error("Error:", error);
