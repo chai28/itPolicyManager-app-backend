@@ -5,17 +5,31 @@ const User = mongoose.model('User');
 
 exports.companyGet = (req, res) => {
     //Get user information to get the company ID
-    User.findOne({
-            _id: req.query._id
-        },
-        function (err, response) {
-            if (!err) {
-                console.log("company ID: " + response.company);
-                res.json(response);
-            } else {
-                console.log(err);
-            }
-        });
+    if (req.query.type === "company") {
+        Company.findOne({
+                company_name: req.query._id
+            },
+            function (err, response) {
+                if (!err) {
+                    console.log("company: " + response);
+                    res.json(response);
+                } else {
+                    console.log(err);
+                }
+            });
+    } else {
+        User.findOne({
+                _id: req.query._id
+            },
+            function (err, response) {
+                if (!err) {
+                    console.log("user: " + response);
+                    res.json(response);
+                } else {
+                    console.log(err);
+                }
+            });
+    }
 };
 
 exports.companyPost = (req, res) => {
