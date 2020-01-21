@@ -5,14 +5,15 @@ const router = express.Router();
 const loginController = require('./controllers/loginController');
 const registerController = require('./controllers/registerController');
 const questionController = require('./controllers/questionController');
-const companyController=require('./controllers/companyController');
-const policyController=require('./controllers/policyController');
-const subscribedPolicyController=require('./controllers/subscribedPolicyController');
-const surveyResultController=require('./controllers/surveyResultController');
-const logoutController=require('./controllers/logoutController');
+const companyController = require('./controllers/companyController');
+const policyController = require('./controllers/policyController');
+const subscribedPolicyController = require('./controllers/subscribedPolicyController');
+const surveyResultController = require('./controllers/surveyResultController');
+const logoutController = require('./controllers/logoutController');
 const addKeyContactController = require('./controllers/addKeyContactController');
 const createPaymentController = require('./controllers/createPaymentController');
 const editProfileController = require('./controllers/editProfileController');
+const keyContactController = require('./controllers/keyContactController');
 
 //Login
 router.get('/signin', loginController.signInGet);
@@ -35,6 +36,10 @@ router.post('/questions', questionController.questionsPost);
 router.get('/addKeyContact', addKeyContactController.addKeyContactGet);
 router.post('/addKeyContact', addKeyContactController.addKeyContactPost);
 
+//Key contact
+router.get('/keyContact', keyContactController.keyContactGet);
+router.post('/keyContact', keyContactController.keyContactPost);
+
 //payment
 router.get('/create_paymentintent', createPaymentController.createPaymentGet);
 router.post('/create_paymentintent', createPaymentController.createPaymentPost);
@@ -48,14 +53,14 @@ router.get('/editprofile', editProfileController.editProfileGet);
 router.post('/editprofile', editProfileController.editProfilePost);
 
 //match policy or survey result
-router.get('/surveyResult',surveyResultController.surveyResultGet);
-router.post('/surveyResult',surveyResultController.surveyResultPost);
+router.get('/surveyResult', surveyResultController.surveyResultGet);
+router.post('/surveyResult', surveyResultController.surveyResultPost);
 
 //subscribed policy
-router.get('/subscribedPolicy',subscribedPolicyController.subscribedPolicyGet);
-router.post('/subscribedPolicy',subscribedPolicyController.subscribedPolicyPost);
+router.get('/subscribedPolicy', subscribedPolicyController.subscribedPolicyGet);
+router.post('/subscribedPolicy', subscribedPolicyController.subscribedPolicyPost);
 
 //logout
-router.get('/logout',logoutController.logout);
+router.get('/logout', logoutController.logout);
 
 module.exports = router;

@@ -42,6 +42,7 @@ exports.createPaymentPost = async (req, res) => {
     console.log("Charge:", {
       charge
     });
+<<<<<<< HEAD
 
     // save subscribtion policy
     async function getPolicy(policyId){
@@ -70,6 +71,28 @@ exports.createPaymentPost = async (req, res) => {
       company.save();
       //remove match policy
   }) 
+=======
+    // save subscribtion policy
+    function getPolicy(policyId) {
+      policy.findById(policyId, function (err, goalPolicy) {
+        policy = goalPolicy;
+      });
+      return policy;
+    }
+    // policy1=getPolicy(product.subscribed_policy[1]);
+    // policy2=getPolicy(product.subscribed_policy[2]);
+    // Company.findOne({company_name:product.company_name}, function (error, company){
+    //     company.subscribed_policy[1].name=policy1.policy_name;
+    //     company.subscribed_policy[1].status="confirmation";
+    //     company.subscribed_policy[1]. accesslink="";
+    //     company.subscribed_policy[1].date_subscribed=moment().format("MMM Do YY");
+    //     company.subscribed_policy[1].date_subscribed=moment().add(12, 'M');
+    //     for( var j=0; j < policy1.content.length; j++){
+    //       company.subscribed_policy[1].content[j]=policy.content[j];
+    //     }
+    //     company.save();  
+    // }) 
+>>>>>>> 9d743a893b49a762bafa5f81333cb131518813ac
     status = "success";
   } catch (error) {
     console.error("Error:", error);
