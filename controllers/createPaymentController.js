@@ -17,7 +17,16 @@ exports.createPaymentPost = async (req, res) => {
   console.log("Request:", req.body);
   let error;
   let status;
+  async function getPolicy(policyId){
+    let goalPolicy = await policy.findById(policyId);
+    return goalPolicy;
+  }
 
+  async function ggg(policies) {
+    return Promise.all(policies.map(async (policy) => {
+      return await getPolicy(policy)
+    }));
+  }
 
 
   try {
@@ -42,27 +51,32 @@ exports.createPaymentPost = async (req, res) => {
     console.log("Charge:", {
       charge
     });
+
     // save subscribtion policy
-    function getPolicy(policyId) {
-      policy.findById(policyId, function (err, goalPolicy) {
-        policy = goalPolicy;
-      });
-      return policy;
-    }
-    // policy1=getPolicy(product.subscribed_policy[1]);
-    // policy2=getPolicy(product.subscribed_policy[2]);
-    // Company.findOne({company_name:product.company_name}, function (error, company){
-    //     company.subscribed_policy[1].name=policy1.policy_name;
-    //     company.subscribed_policy[1].status="confirmation";
-    //     company.subscribed_policy[1]. accesslink="";
-    //     company.subscribed_policy[1].date_subscribed=moment().format("MMM Do YY");
-    //     company.subscribed_policy[1].date_subscribed=moment().add(12, 'M');
-    //     for( var j=0; j < policy1.content.length; j++){
-    //       company.subscribed_policy[1].content[j]=policy.content[j];
-    //     }
-    //     company.save();  
-    // }) 
-    status = "success";
+    
+    const subscibed_policies =  await ggg(product.policies)
+    console.log('kkkkkjkljljllk', subscibed_policies)
+
+    subscibed_policies.forEach(policy => {
+      let subscribedPolicy = {
+        name: policy.policy_name,
+        status: "confirmation",
+        accesslink: "",
+        date_subscribed: moment(),
+        date_expired: moment().add(12, 'M'),
+        content: policy.content
+      }
+
+      console.log("subscribedPolicy name: "+subscribedPolicy.name)
+      Company.findOne({company_name:product.name}, function (error, company) {
+        console.log("company: "+company);
+       company.subscribed_policy.push(subscribedPolicy);
+        company.save();
+        //remove match policy
+      }) 
+      status = "success";
+    })
+  
   } catch (error) {
     console.error("Error:", error);
     status = "failure";
