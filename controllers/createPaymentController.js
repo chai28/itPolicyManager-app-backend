@@ -17,12 +17,12 @@ exports.createPaymentPost = async (req, res) => {
   console.log("Request:", req.body);
   let error;
   let status;
-  async function getPolicy(policyId){
+  async function getPolicy(policyId) {
     let goalPolicy = await policy.findById(policyId);
     return goalPolicy;
   }
 
-  async function ggg(policies) {
+  async function getAllPolicy(policies) {
     return Promise.all(policies.map(async (policy) => {
       return await getPolicy(policy)
     }));
@@ -53,30 +53,32 @@ exports.createPaymentPost = async (req, res) => {
     });
 
     // save subscribtion policy
-    
-    const subscibed_policies =  await ggg(product.policies)
+
+    const subscibed_policies = await getAllPolicy(product.policies)
     console.log('kkkkkjkljljllk', subscibed_policies)
 
     subscibed_policies.forEach(policy => {
       let subscribedPolicy = {
         name: policy.policy_name,
-        status: "confirmation",
+        status: "not reveiwed",
         accesslink: "",
         date_subscribed: moment(),
         date_expired: moment().add(12, 'M'),
         content: policy.content
       }
 
-      console.log("subscribedPolicy name: "+subscribedPolicy.name)
-      Company.findOne({company_name:product.name}, function (error, company) {
-        console.log("company: "+company);
-       company.subscribed_policy.push(subscribedPolicy);
+      console.log("subscribedPolicy name: " + subscribedPolicy.name)
+      Company.findOne({
+        company_name: product.name
+      }, function (error, company) {
+        console.log("company: " + company);
+        company.subscribed_policy.push(subscribedPolicy);
         company.save();
         //remove match policy
-      }) 
+      })
       status = "success";
     })
-  
+
   } catch (error) {
     console.error("Error:", error);
     status = "failure";
