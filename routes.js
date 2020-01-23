@@ -15,6 +15,7 @@ const createPaymentController = require('./controllers/createPaymentController')
 const editProfileController = require('./controllers/editProfileController');
 const keyContactController = require('./controllers/keyContactController');
 const pdfGenerationController = require('./controllers/pdfGenerationController.js');
+const reviewPolicyController = require('./controllers/reviewController');
 
 //Login
 router.get('/signin', loginController.signInGet);
@@ -60,6 +61,10 @@ router.post('/surveyResult', surveyResultController.surveyResultPost);
 //subscribed policy
 router.get('/subscribedPolicy', subscribedPolicyController.subscribedPolicyGet);
 router.post('/subscribedPolicy', subscribedPolicyController.subscribedPolicyPost);
+
+//review subscribed policy
+router.get('/reviewPolicy', reviewPolicyController.reviewPolicyGet);
+router.post('/reviewPolicy', reviewPolicyController.reviewPolicyPost);
 
 //logout
 router.get('/logout', logoutController.logout);

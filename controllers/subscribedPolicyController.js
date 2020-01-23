@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 require("../models/company.model.js");
 const Company = mongoose.model('Company');
-const policy = mongoose.model('Policy');
 
 exports.subscribedPolicyGet = async (req, res) => {
     Company.findOne({
