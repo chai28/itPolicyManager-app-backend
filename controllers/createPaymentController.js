@@ -22,7 +22,7 @@ exports.createPaymentPost = async (req, res) => {
     return goalPolicy;
   }
 
-  async function getAllPolicy(policies) {
+  async function getSubscribedPolicy(policies) {
     return Promise.all(policies.map(async (policy) => {
       return await getPolicy(policy)
     }));
@@ -54,7 +54,7 @@ exports.createPaymentPost = async (req, res) => {
 
     // save subscribtion policy
 
-    const subscibed_policies = await getAllPolicy(product.policies)
+    const subscibed_policies = await getSubscribedPolicy(product.policies)
     console.log('kkkkkjkljljllk', subscibed_policies)
 
     subscibed_policies.forEach(policy => {
@@ -67,15 +67,30 @@ exports.createPaymentPost = async (req, res) => {
         content: policy.content
       }
 
-      console.log("subscribedPolicy name: " + subscribedPolicy.name)
-      Company.findOne({
-        company_name: product.name
-      }, function (error, company) {
-        console.log("company: " + company);
-        company.subscribed_policy.push(subscribedPolicy);
+     // console.log("subscribedPolicy name: "+subscribedPolicy.name)
+      Company.findOne({company_name:product.name}, function (error, company) {
+       // console.log("company: "+company);
+       company.subscribed_policy.push(subscribedPolicy);
         company.save();
-        //remove match policy
       })
+
+       //remove match policy
+      product.policies.forEach(policy =>{
+        //console.log("policy: "+policy);
+        Company.findOne({company_name:product.name},function(error,company){
+            for(var i=0;i<company.match_policy.length;i++){
+                 if(company.match_policy[i]==policy){
+                   console.log("same policy: "+company.match_policy[i]);
+                  //  company.set('company.match_policy[i]', undefined, {strict: false} );
+                  company.match_policy[i]=undefined;
+                   console.log('after assign :'+company.match_policy[i]);
+                 }
+            } 
+           // console.log("last: "+company.match_policy);
+            company.save();
+        })
+      })
+
       status = "success";
     })
 
