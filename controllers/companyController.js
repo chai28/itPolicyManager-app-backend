@@ -11,7 +11,7 @@ exports.companyGet = (req, res) => {
             },
             function (err, response) {
                 if (!err) {
-                    console.log("company: " + response);
+                    // console.log("company: " + response);
                     res.json(response);
                 } else {
                     console.log(err);
@@ -23,7 +23,7 @@ exports.companyGet = (req, res) => {
             },
             function (err, response) {
                 if (!err) {
-                    console.log("user: " + response);
+                    // console.log("user: " + response);
                     res.json(response);
                 } else {
                     console.log(err);

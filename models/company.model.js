@@ -17,12 +17,13 @@ const companySchema = new Schema({
     ref: 'User'
   }],
   subscribed_policy: [{
-    name:String,
+    name: String,
     status: String,
     accesslink: String,
     date_subscribed: Date,
     date_expired: Date,
-    content: {}
+    content: {},
+    reviewer: []
   }],
   match_policy: [{
     type: Schema.Types.ObjectId,
