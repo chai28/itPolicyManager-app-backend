@@ -17,7 +17,7 @@ exports.subscribedPolicyGet = async (req, res) => {
                 });
             }
 
-            console.log(company.subscribed_policy);
+            // console.log(company.subscribed_policy);
         }
     })
 };

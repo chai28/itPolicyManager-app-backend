@@ -15,7 +15,7 @@ exports.reviewPolicyGet = async (req, res) => {
                 let singlePolicy;
                 for (let i = 0; i < company.subscribed_policy.length; i++) {
                     if (company.subscribed_policy[i].name === req.query.policy_name) {
-                        console.log(company.subscribed_policy[i]);
+                        // console.log(company.subscribed_policy[i]);
                         singlePolicy = company.subscribed_policy[i];
                         break;
                     }
@@ -46,24 +46,30 @@ exports.reviewPolicyPost = async (req, res) => {
         if (error) {
             console.log("Error: " + error);
         } else {
-            //update policy status
             let policy = companyDetails.subscribed_policy;
-            // console.log("policy =>" + req.body.data.policyName);
+
+            //update policy status
             for (let i = 0; i < policy.length; i++) {
                 if (policy[i].name === dataInfo.policyName) {
                     console.log(policy[i].name); //test
                     if (dataInfo.status === "not reviewed") {
-                        console.log("1")
+                        // console.log("1")
                         policy[i].status = "confirmation";
+                        policy[i].reviewer = dataInfo.reviewerList;
+                        // console.log("policy[i].reviewer" + policy[i].reviewer)
                     } else if (dataInfo.status === "confirmation") {
-                        console.log("2")
+                        // console.log("2")
                         policy[i].status = "adoption";
+                        policy[i].reviewer = dataInfo.reviewerList;
+                        // console.log("policy[i].reviewer" + policy[i].reviewer)
                     } else if (dataInfo.status === "adoption") {
-                        console.log("3")
+                        // console.log("3")
                         policy[i].status = "awareness";
+                        policy[i].reviewer = dataInfo.reviewerList;
+                        // console.log("policy[i].reviewer" + policy[i].reviewer)
                     } else {
-                        console.log("4")
-                        policy[i].status = "reviewed";
+                        // console.log("4")
+                        policy[i].status = "done";
                     }
                     break;
                 }
@@ -80,7 +86,7 @@ exports.reviewPolicyPost = async (req, res) => {
                     })
                 } else {
                     //add update user
-                    console.log("=======> " + dataInfo.reviewerList)
+                    // console.log("=======> " + dataInfo.reviewerList)
                     for (let i = 0; i < dataInfo.reviewerList.length; i++) {
                         User.findOne({
                             _id: dataInfo.reviewerList[i]
@@ -99,6 +105,11 @@ exports.reviewPolicyPost = async (req, res) => {
                                     status = "reviewed";
                                 }
                                 userDetails.user_type = status;
+                                //Generate access link
+                                let pName = dataInfo.policyName.replace(/\s+/g, "-");
+                                let generalLink = ("http://localhost:3000/review-policy/" +
+                                    companyDetails._id + "/" + pName + "/" + userDetails._id);
+                                // console.log("generalLink ===> " + generalLink);
                                 userDetails.save(function (err) {
                                     //set up email content
                                     const mailOptions = {
@@ -109,7 +120,7 @@ exports.reviewPolicyPost = async (req, res) => {
                                             '<p> You have been set as a reviewer for dataInfo.policyName. <br>' +
                                             'Below is the link to view and review the policy.<br><br>' +
                                             'Below is the link to view and review the policy.<br><br>' +
-                                            '<a href="http://localhost:3000/signin-page">Policy document to be reviewed.</a>  '
+                                            '<a href=' + generalLink + '>CLICK HERE: Policy document to be reviewed.</a>  '
                                     };
                                     transporter.sendMail(mailOptions, function (err, info) {
                                         if (err)
