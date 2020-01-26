@@ -70,6 +70,6 @@ router.post('/reviewPolicy', reviewPolicyController.reviewPolicyPost);
 router.get('/logout', logoutController.logout);
 
 //pdf generation
-router.post('/pdfGeneration',pdfGenerationController.pdfGenerationPost);
+router.get('/pdfGeneration',pdfGenerationController.pdfGenerationGet);
 
 module.exports = router;
