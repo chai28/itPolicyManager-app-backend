@@ -38,6 +38,8 @@ exports.subscribedPolicyPost = (req, res) => {
                 }
             }
             company.subscribed_policy[index].content=contentDetails. updatedcontent;
+            company.subscribed_policy[index].version = company.subscribed_policy[index].version+0.1;
+            console.log(company.subscribed_policy[index].version);
             company.save();
             
         }

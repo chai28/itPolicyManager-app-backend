@@ -5,6 +5,7 @@ const User = mongoose.model("User");
 const Nodemailer = require('nodemailer');
 
 exports.reviewPolicyGet = async (req, res) => {
+    console.log("company name"+ req.query.company_name);
     Company.findOne({
             company_name: req.query.company_name
         },

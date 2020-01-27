@@ -64,7 +64,8 @@ exports.createPaymentPost = async (req, res) => {
         accesslink: "",
         date_subscribed: moment(),
         date_expired: moment().add(12, 'M'),
-        content: policy.content
+        content: policy.content,
+        version: 1.0
       }
 
      // console.log("subscribedPolicy name: "+subscribedPolicy.name)
