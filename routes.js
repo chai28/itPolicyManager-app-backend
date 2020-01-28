@@ -3,17 +3,15 @@ const router = express.Router();
 
 // define controllers here
 const loginController = require('./controllers/loginController');
-const registerController = require('./controllers/registerController');
 const questionController = require('./controllers/questionController');
 const companyController = require('./controllers/companyController');
+const userController = require('./controllers/userController');
 const policyController = require('./controllers/policyController');
 const subscribedPolicyController = require('./controllers/subscribedPolicyController');
 const surveyResultController = require('./controllers/surveyResultController');
 const logoutController = require('./controllers/logoutController');
-const addKeyContactController = require('./controllers/addKeyContactController');
 const createPaymentController = require('./controllers/createPaymentController');
 const editProfileController = require('./controllers/editProfileController');
-const keyContactController = require('./controllers/keyContactController');
 const pdfGenerationController = require('./controllers/pdfGenerationController.js');
 const reviewPolicyController = require('./controllers/reviewController');
 const clientReviewPolicyController = require('./controllers/clientReviewerController');
@@ -22,10 +20,14 @@ const clientReviewPolicyController = require('./controllers/clientReviewerContro
 router.get('/signin', loginController.signInGet);
 router.post('/signin', loginController.signInPost);
 
+//company controller
+router.get('/company', companyController.companyGet);
+router.post('/company', companyController.companyPost);
+router.post('/register', companyController.registerPost);
 
-//Register
-router.get('/register', registerController.registerGet);
-router.post('/register', registerController.registerPost);
+//company controller
+router.get('/user', userController.userGet);
+router.post('/user', userController.userPost);
 
 //policy 
 router.get('/policies', policyController.policiesGet);
@@ -35,21 +37,9 @@ router.post('/policies', policyController.policiesPost);
 router.get('/questions', questionController.questionsGet);
 router.post('/questions', questionController.questionsPost);
 
-//add key contact
-router.get('/addKeyContact', addKeyContactController.addKeyContactGet);
-router.post('/addKeyContact', addKeyContactController.addKeyContactPost);
-
-//Key contact
-router.get('/keyContact', keyContactController.keyContactGet);
-router.post('/keyContact', keyContactController.keyContactPost);
-
 //payment
 router.get('/create_paymentintent', createPaymentController.createPaymentGet);
 router.post('/create_paymentintent', createPaymentController.createPaymentPost);
-
-//match policy 
-router.get('/company', companyController.companyGet);
-router.post('/company', companyController.companyPost);
 
 //edit profile
 router.get('/editprofile', editProfileController.editProfileGet);
