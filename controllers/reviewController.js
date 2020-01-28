@@ -21,7 +21,10 @@ exports.reviewPolicyGet = async (req, res) => {
                         break;
                     }
                 }
-                res.json(singlePolicy);
+                res.json({
+                    singlePolicy,
+                    company
+                });
             }
         }
     );

@@ -51,6 +51,7 @@ exports.editProfilePost = (req, res) => {
                    company.address = companyInfo.address;
                    company.contact = companyInfo.contact;
                    company.description = companyInfo.description;
+                   company.logo =companyInfo.logo;
                    company.save();
                    status = "success";
                    res.json({
