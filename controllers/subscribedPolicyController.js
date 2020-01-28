@@ -37,11 +37,15 @@ exports.subscribedPolicyPost = (req, res) => {
                     break;
                 }
             }
-            company.subscribed_policy[index].content=contentDetails. updatedcontent;
-            company.subscribed_policy[index].version = company.subscribed_policy[index].version+0.1;
-            console.log(company.subscribed_policy[index].version);
+            let version = company.subscribed_policy[index].version; 
+            company.subscribed_policy[index].content=contentDetails.updatedcontent;
+            company.subscribed_policy[index].version = version + 0.1;
+            console.log( "version: "+company.subscribed_policy[index].version);
             company.save();
-            
+            status = "success";
+            res.json({
+                status
+              });
         }
     })
 

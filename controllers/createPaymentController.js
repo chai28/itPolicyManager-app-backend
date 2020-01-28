@@ -84,14 +84,14 @@ exports.createPaymentPost = async (req, res) => {
                    console.log("same policy: "+company.match_policy[i]);
                   //  company.set('company.match_policy[i]', undefined, {strict: false} );
                   company.match_policy[i]=undefined;
-                   console.log('after assign :'+company.match_policy[i]);
+                  console.log('after assign :'+company.match_policy[i]);
                  }
             } 
            // console.log("last: "+company.match_policy);
             company.save();
         })
       })
-
+      
       status = "success";
     })
 
