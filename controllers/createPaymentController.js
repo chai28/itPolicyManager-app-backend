@@ -64,7 +64,8 @@ exports.createPaymentPost = async (req, res) => {
         accesslink: "",
         date_subscribed: moment(),
         date_expired: moment().add(12, 'M'),
-        content: policy.content
+        content: policy.content,
+        version: 1.0
       }
 
      // console.log("subscribedPolicy name: "+subscribedPolicy.name)
@@ -83,14 +84,14 @@ exports.createPaymentPost = async (req, res) => {
                    console.log("same policy: "+company.match_policy[i]);
                   //  company.set('company.match_policy[i]', undefined, {strict: false} );
                   company.match_policy[i]=undefined;
-                   console.log('after assign :'+company.match_policy[i]);
+                  console.log('after assign :'+company.match_policy[i]);
                  }
             } 
            // console.log("last: "+company.match_policy);
             company.save();
         })
       })
-
+      
       status = "success";
     })
 

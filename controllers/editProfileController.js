@@ -41,27 +41,21 @@ exports.editProfilePost = (req, res) => {
     Company.findById({
             "_id": companyInfo._id
         },
-        function (err, response) {
+        function (err, company) {
             if (err) {
                 console.log(err);
             } else {
-                Company.updateOne({
-                    company_name: companyInfo.company_name,
-                    company_email: companyInfo.company_email,
-                    nzbn: companyInfo.nzbn,
-                    address: companyInfo.address,
-                    contact: companyInfo.contact,
-                    description: companyInfo.description
-                }, function (err, response) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        res.json({
-                            message: "editProfilePost is working"
-                        });
-
-                    }
-                })
+                   company.company_name = companyInfo.company_name;
+                   company.company_email = companyInfo.company_email;
+                   company.nzbn = companyInfo.nzbn;
+                   company.address = companyInfo.address;
+                   company.contact = companyInfo.contact;
+                   company.description = companyInfo.description;
+                   company.save();
+                   status = "success";
+                   res.json({
+                       status
+                     });
             }
         })
 

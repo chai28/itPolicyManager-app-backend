@@ -64,7 +64,7 @@ exports.addKeyContactPost = (req, res) => {
                 NewUser.save(function(err) {
                   res.json({
                     message: "Add Successful!",
-                    value: true
+                    status :"success"
                   });
                 });
                 // Company.findById(response.company, function(err,goalCompany) {
@@ -78,7 +78,7 @@ exports.addKeyContactPost = (req, res) => {
               } else {
                 res.json({
                   message: "User already exists",
-                  value: false
+                  status : "fail"
                 });
               }
             }
