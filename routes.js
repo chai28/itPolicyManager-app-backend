@@ -16,6 +16,7 @@ const editProfileController = require('./controllers/editProfileController');
 const keyContactController = require('./controllers/keyContactController');
 const pdfGenerationController = require('./controllers/pdfGenerationController.js');
 const reviewPolicyController = require('./controllers/reviewController');
+const clientReviewPolicyController = require('./controllers/clientReviewerController');
 
 //Login
 router.get('/signin', loginController.signInGet);
@@ -66,10 +67,14 @@ router.post('/subscribedPolicy', subscribedPolicyController.subscribedPolicyPost
 router.get('/reviewPolicy', reviewPolicyController.reviewPolicyGet);
 router.post('/reviewPolicy', reviewPolicyController.reviewPolicyPost);
 
+//Client review subscribed policy
+router.get('/clientReviewer', clientReviewPolicyController.clientReviewerGet);
+router.post('/clientReviewer', clientReviewPolicyController.clientReviewerPost);
+
 //logout
 router.get('/logout', logoutController.logout);
 
 //pdf generation
-router.post('/pdfGeneration',pdfGenerationController.pdfGenerationPost);
+router.post('/pdfGeneration', pdfGenerationController.pdfGenerationPost);
 
 module.exports = router;

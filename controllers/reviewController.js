@@ -20,6 +20,7 @@ exports.reviewPolicyGet = async (req, res) => {
                         break;
                     }
                 }
+                console.log(singlePolicy)
                 res.json(singlePolicy);
             }
         }
