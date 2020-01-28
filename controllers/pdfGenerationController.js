@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Company = mongoose.model('Company');
 // const puppeteer = require('puppeteer');
 
-exports.pdfGenerationGet = (req, res) => {
+exports.pdfGenerationPost = (req, res) => {
 
   // async function printPDF() {
   //   const browser = await puppeteer.launch({ 
