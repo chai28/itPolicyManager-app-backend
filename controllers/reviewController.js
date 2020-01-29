@@ -5,7 +5,7 @@ const User = mongoose.model("User");
 const Nodemailer = require('nodemailer');
 
 exports.reviewPolicyGet = async (req, res) => {
-    console.log("company name"+ req.query.company_name);
+    console.log("company name" + req.query.company_name);
     Company.findOne({
             company_name: req.query.company_name
         },
@@ -55,24 +55,29 @@ exports.reviewPolicyPost = async (req, res) => {
             //update policy status
             for (let i = 0; i < policy.length; i++) {
                 if (policy[i].name === dataInfo.policyName) {
-                    console.log(policy[i].name); //test
+                    // console.log(policy[i].name); //test
                     if (dataInfo.status === "not reviewed") {
-                        // console.log("1")
+                        // console.log("confirmation")
                         policy[i].status = "confirmation";
                         policy[i].reviewer = dataInfo.reviewerList;
                         // console.log("policy[i].reviewer" + policy[i].reviewer)
                     } else if (dataInfo.status === "confirmation") {
-                        // console.log("2")
+                        // console.log("adoption")
                         policy[i].status = "adoption";
                         policy[i].reviewer = dataInfo.reviewerList;
                         // console.log("policy[i].reviewer" + policy[i].reviewer)
                     } else if (dataInfo.status === "adoption") {
-                        // console.log("3")
+                        // console.log("awareness")
                         policy[i].status = "awareness";
                         policy[i].reviewer = dataInfo.reviewerList;
                         // console.log("policy[i].reviewer" + policy[i].reviewer)
+                    } else if (dataInfo.status === "awareness") {
+                        // console.log("reporting")
+                        policy[i].status = "reporting";
+                        policy[i].reviewer = dataInfo.reviewerList;
+                        // console.log("policy[i].reviewer" + policy[i].reviewer)
                     } else {
-                        // console.log("4")
+                        // console.log("done")
                         policy[i].status = "done";
                     }
                     break;
