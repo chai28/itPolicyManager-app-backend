@@ -12,7 +12,6 @@ const surveyResultController = require('./controllers/surveyResultController');
 const logoutController = require('./controllers/logoutController');
 const createPaymentController = require('./controllers/createPaymentController');
 const editProfileController = require('./controllers/editProfileController');
-const pdfGenerationController = require('./controllers/pdfGenerationController.js');
 const reviewPolicyController = require('./controllers/reviewController');
 const clientReviewPolicyController = require('./controllers/clientReviewerController');
 
@@ -63,8 +62,5 @@ router.post('/clientReviewer', clientReviewPolicyController.clientReviewerPost);
 
 //logout
 router.get('/logout', logoutController.logout);
-
-//pdf generation
-router.post('/pdfGeneration', pdfGenerationController.pdfGenerationPost);
 
 module.exports = router;
