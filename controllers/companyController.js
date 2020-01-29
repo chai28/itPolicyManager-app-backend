@@ -17,6 +17,16 @@ exports.companyGet = (req, res) => {
                     console.log(err);
                 }
             });
+    } else if(req.query.type === "companyAll"){
+        Company.find({},
+            function (err, response) {
+            if (!err) {
+                // console.log("company: " + response);
+                res.json(response);
+            } else {
+                console.log(err);
+            }
+        });
     } else {
         User.findOne({
                 _id: req.query._id

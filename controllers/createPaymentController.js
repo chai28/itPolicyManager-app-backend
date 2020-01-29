@@ -28,6 +28,31 @@ exports.createPaymentPost = async (req, res) => {
     }));
   }
 
+  function addSubscribedPolicies(name, policies){
+    // console.log("subscribedPolicy name: "+subscribedPolicy.name)
+    Company.findOne({company_name:name}, function (error, company) {
+      // console.log("company: "+company);
+      company.subscribed_policy.push(policies);
+       company.save();
+     })
+  }
+
+  function deleteMatchPolicyData(name,policies) {
+     //remove match policy
+     for(let i=0; i<policies.length; i++){
+      // console.log("#####"+ policies[i])
+        Company.updateOne({company_name:name},
+          {$pull: {[`match_policy`]: policies[i]}},
+          function (err, response) {
+            if (!err) {
+                //console.log(response);
+            } else {
+                console.log(err);
+            }
+          }
+        )
+      }
+  }
 
   try {
     const product = req.body.product;
@@ -55,12 +80,12 @@ exports.createPaymentPost = async (req, res) => {
     // save subscribtion policy
 
     const subscibed_policies = await getSubscribedPolicy(product.policies)
-    console.log('kkkkkjkljljllk', subscibed_policies)
+    // console.log('kkkkkjkljljllk', subscibed_policies)
 
     subscibed_policies.forEach(policy => {
       let subscribedPolicy = {
         name: policy.policy_name,
-        status: "not reveiwed",
+        status: "not reviewed",
         accesslink: "",
         date_subscribed: moment(),
         date_expired: moment().add(12, 'M'),
@@ -68,33 +93,10 @@ exports.createPaymentPost = async (req, res) => {
         version: 1.0
       }
 
-     // console.log("subscribedPolicy name: "+subscribedPolicy.name)
-      Company.findOne({company_name:product.name}, function (error, company) {
-       // console.log("company: "+company);
-       company.subscribed_policy.push(subscribedPolicy);
-        company.save();
-      })
-
-       //remove match policy
-      product.policies.forEach(policy =>{
-        //console.log("policy: "+policy);
-        Company.findOne({company_name:product.name},function(error,company){
-            for(var i=0;i<company.match_policy.length;i++){
-                 if(company.match_policy[i]==policy){
-                   console.log("same policy: "+company.match_policy[i]);
-                  //  company.set('company.match_policy[i]', undefined, {strict: false} );
-                  company.match_policy[i]=undefined;
-                  console.log('after assign :'+company.match_policy[i]);
-                 }
-            } 
-           // console.log("last: "+company.match_policy);
-            company.save();
-        })
-      })
-      
-      status = "success";
+      addSubscribedPolicies(product.name, subscribedPolicy)
+      deleteMatchPolicyData(product.name,product.policies)
     })
-
+      status = "success";
   } catch (error) {
     console.error("Error:", error);
     status = "failure";
