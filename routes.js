@@ -2,19 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 // define controllers here
-<<<<<<< HEAD
-const loginController = require('./controllers/loginController');
-const questionController = require('./controllers/questionController');
-const companyController = require('./controllers/companyController');
-const userController = require('./controllers/userController');
-const policyController = require('./controllers/policyController');
-const subscribedPolicyController = require('./controllers/subscribedPolicyController');
-const surveyResultController = require('./controllers/surveyResultController');
-const createPaymentController = require('./controllers/createPaymentController');
-const editProfileController = require('./controllers/editProfileController');
-const reviewPolicyController = require('./controllers/reviewController');
-const clientReviewPolicyController = require('./controllers/clientReviewerController');
-=======
 const loginController = require("./controllers/loginController");
 const questionController = require("./controllers/questionController");
 const companyController = require("./controllers/companyController");
@@ -26,7 +13,6 @@ const createPaymentController = require("./controllers/createPaymentController")
 const editProfileController = require("./controllers/editProfileController");
 const reviewPolicyController = require("./controllers/reviewController");
 const clientReviewPolicyController = require("./controllers/clientReviewerController");
->>>>>>> 086c5ea7b00e1e74e1fce5491a29b3118470eec8
 
 //Login
 router.get("/signin", loginController.signInGet);
@@ -63,10 +49,7 @@ router.post("/surveyResult", surveyResultController.surveyResultPost);
 
 //subscribed policy
 router.get("/subscribedPolicy", subscribedPolicyController.subscribedPolicyGet);
-router.post(
-  "/subscribedPolicy",
-  subscribedPolicyController.subscribedPolicyPost
-);
+router.post("/subscribedPolicy",subscribedPolicyController.subscribedPolicyPost);
 
 //review subscribed policy
 router.get("/reviewPolicy", reviewPolicyController.reviewPolicyGet);
@@ -76,9 +59,4 @@ router.post("/reviewPolicy", reviewPolicyController.reviewPolicyPost);
 router.get("/clientReviewer", clientReviewPolicyController.clientReviewerGet);
 router.post("/clientReviewer", clientReviewPolicyController.clientReviewerPost);
 
-<<<<<<< HEAD
-
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> 086c5ea7b00e1e74e1fce5491a29b3118470eec8
