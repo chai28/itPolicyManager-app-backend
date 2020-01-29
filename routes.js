@@ -9,14 +9,8 @@ const userController = require('./controllers/userController');
 const policyController = require('./controllers/policyController');
 const subscribedPolicyController = require('./controllers/subscribedPolicyController');
 const surveyResultController = require('./controllers/surveyResultController');
-<<<<<<< HEAD
-const addKeyContactController = require('./controllers/addKeyContactController');
-=======
-const logoutController = require('./controllers/logoutController');
->>>>>>> e5b574e88bb9b51d5b4f0db7dcc9a6c649035751
 const createPaymentController = require('./controllers/createPaymentController');
 const editProfileController = require('./controllers/editProfileController');
-const pdfGenerationController = require('./controllers/pdfGenerationController.js');
 const reviewPolicyController = require('./controllers/reviewController');
 const clientReviewPolicyController = require('./controllers/clientReviewerController');
 
@@ -65,7 +59,5 @@ router.post('/reviewPolicy', reviewPolicyController.reviewPolicyPost);
 router.get('/clientReviewer', clientReviewPolicyController.clientReviewerGet);
 router.post('/clientReviewer', clientReviewPolicyController.clientReviewerPost);
 
-//pdf generation
-router.post('/pdfGeneration', pdfGenerationController.pdfGenerationPost);
 
 module.exports = router;
