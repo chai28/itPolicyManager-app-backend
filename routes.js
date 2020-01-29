@@ -9,7 +9,6 @@ const companyController = require('./controllers/companyController');
 const policyController = require('./controllers/policyController');
 const subscribedPolicyController = require('./controllers/subscribedPolicyController');
 const surveyResultController = require('./controllers/surveyResultController');
-const logoutController = require('./controllers/logoutController');
 const addKeyContactController = require('./controllers/addKeyContactController');
 const createPaymentController = require('./controllers/createPaymentController');
 const editProfileController = require('./controllers/editProfileController');
@@ -70,9 +69,6 @@ router.post('/reviewPolicy', reviewPolicyController.reviewPolicyPost);
 //Client review subscribed policy
 router.get('/clientReviewer', clientReviewPolicyController.clientReviewerGet);
 router.post('/clientReviewer', clientReviewPolicyController.clientReviewerPost);
-
-//logout
-router.get('/logout', logoutController.logout);
 
 //pdf generation
 router.post('/pdfGeneration', pdfGenerationController.pdfGenerationPost);
