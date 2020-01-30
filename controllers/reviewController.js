@@ -124,7 +124,7 @@ exports.reviewPolicyPost = async (req, res) => {
                                     const mailOptions = {
                                         from: 'itpsychiatrist.policymanager@gmail.com', // sender address
                                         to: userDetails.email, // list of receivers
-                                        subject: 'Your IT Policy Manager Login Credentials', // Subject line
+                                        subject: pName + 'review request', // Subject line
                                         html: '<h2>Welcome to IT Policy Manager!</h2>' +
                                             '<p> You have been set as a reviewer for dataInfo.policyName. <br>' +
                                             'Below is the link to view and review the policy.<br><br>' +
