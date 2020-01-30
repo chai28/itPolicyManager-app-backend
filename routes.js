@@ -49,10 +49,7 @@ router.post("/surveyResult", surveyResultController.surveyResultPost);
 
 //subscribed policy
 router.get("/subscribedPolicy", subscribedPolicyController.subscribedPolicyGet);
-router.post(
-  "/subscribedPolicy",
-  subscribedPolicyController.subscribedPolicyPost
-);
+router.post("/subscribedPolicy",subscribedPolicyController.subscribedPolicyPost);
 
 //review subscribed policy
 router.get("/reviewPolicy", reviewPolicyController.reviewPolicyGet);
