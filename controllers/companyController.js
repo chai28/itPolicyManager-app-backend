@@ -117,7 +117,12 @@ exports.registerPost = (req, res) => {
             // console.log("response: " + company);
             // console.log("error: " + error);
             //Save the Address
-            let Address = RegInfo.bAddr + " " + RegInfo.bAddr2 + " " + RegInfo.bCity + " " + RegInfo.bState + " " + RegInfo.bZip;
+            let Address;
+            if(RegInfo.bAddr && RegInfo.bAddr2 &&RegInfo.bCity&&RegInfo.bState&&RegInfo.bState&&RegInfo.bZip){
+                Address = RegInfo.bAddr + " " + RegInfo.bAddr2 + " " + RegInfo.bCity + " " + RegInfo.bState + " " + RegInfo.bZip;
+            }else{
+                 Address="";
+            }
             let username=setupUsername(RegInfo.bNameInput,RegInfo.nzbnInput);
             let password=setupPassword();
             // console.log("Address: " + Address);
