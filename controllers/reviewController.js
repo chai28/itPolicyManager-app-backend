@@ -55,7 +55,7 @@ exports.reviewPolicyPost = async (req, res) => {
             //update policy status
             for (let i = 0; i < policy.length; i++) {
                 if (policy[i].name === dataInfo.policyName) {
-                    // console.log(policy[i].name); //test
+                    console.log(policy[i].name); //test
                     if (dataInfo.status === "not reviewed") {
                         // console.log("confirmation")
                         policy[i].status = "confirmation";
@@ -85,7 +85,7 @@ exports.reviewPolicyPost = async (req, res) => {
             }
             companyDetails.subscribed_policy = policy;
             // console.log("companyDetails.subscribed_policy ==> " + companyDetails.subscribed_policy)
-            Company.updateOne({
+            Company.updateOne({_id: companyDetails._id},{
                 subscribed_policy: companyDetails.subscribed_policy
             }, function (err, response) {
                 if (err) {
