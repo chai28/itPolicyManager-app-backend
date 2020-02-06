@@ -59,7 +59,7 @@ exports.userPost = (req, res) => {
             });
             } else {
                 User.findOne({
-                    email: contactInfo.email},"email",
+                    email: contactInfo.email, company:response.company},"email",
                     function(err, email) {
                     if (!email) {
                         console.log(email);
