@@ -1,9 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-//const cookieParser = require('cookie-parser');
-// const session = require('express-session');
-// const FileStore = require('session-file-store')(session);
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 
@@ -36,10 +33,6 @@ app.use(session({
   resave: true,
   saveUninitialized: false
 }));
-
-
-
-
 
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true

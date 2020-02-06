@@ -46,7 +46,7 @@ exports.companyPost = (req, res) => {
     let matchPolicy = req.body;
     // console.log(matchPolicy.policies);
     // console.log("company id: " + matchPolicy.id);
-    Company.findByIdAndUpdate(matchPolicy.id, {
+    Company.findByIdAndUpdate({"company_name": matchPolicy.name}, {
         "$push": {
             "match_policy": matchPolicy.policies
         }
