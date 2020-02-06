@@ -46,17 +46,36 @@ exports.companyPost = (req, res) => {
     let matchPolicy = req.body;
     // console.log(matchPolicy.policies);
     // console.log("company id: " + matchPolicy.id);
-    Company.findByIdAndUpdate({"company_name": matchPolicy.name}, {
-        "$push": {
-            "match_policy": matchPolicy.policies
-        }
-    }, function (err, response) {
-        if (!err) {
-            //console.log(response);
-        } else {
-            console.log(err);
-        }
-    });
+    if(matchPolicy.status === "new"){
+        Company.findByIdAndUpdate(matchPolicy.id, {
+            "$push": {
+                "match_policy": matchPolicy.policies
+            }
+        }, function (err, response) {
+            if (!err) {
+                res.json({
+                    result :"success"
+                });
+            } else {
+                console.log(err);
+            }
+        }); 
+    }else{
+        Company.findOneAndUpdate({"company_name": matchPolicy.name}, {
+            "$push": {
+                "match_policy": matchPolicy.policies
+            }, upsert: true,
+            new: true
+        }, function (err, response) {
+            if (!err) {
+                res.json({
+                    result :"success"
+                });
+            } else {
+                console.log(err);
+            }
+        });
+    }
 }
 
 const Nodemailer = require('nodemailer');

@@ -35,7 +35,8 @@ app.use(session({
 }));
 
 mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useFindAndModify: false 
 });
 const connection = mongoose.connection;
 
