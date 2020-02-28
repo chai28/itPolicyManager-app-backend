@@ -40,8 +40,9 @@ router.get("/create_paymentintent", createPaymentController.createPaymentGet);
 router.post("/create_paymentintent", createPaymentController.createPaymentPost);
 
 //edit profile
-router.get("/editprofile", editProfileController.editProfileGet);
+router.get("/editprofile/:id", editProfileController.editProfileGet);
 router.post("/editprofile", editProfileController.editProfilePost);
+router.post("/deleteprofile",editProfileController.editProfilePut);
 
 //match policy or survey result
 router.get("/surveyResult", surveyResultController.surveyResultGet);

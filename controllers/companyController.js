@@ -18,7 +18,7 @@ exports.companyGet = (req, res) => {
                 }
             });
     } else if(req.query.type === "companyAll"){
-        Company.find({},
+        Company.find({status:true},
             function (err, response) {
             if (!err) {
                 // console.log("company: " + response);
@@ -27,7 +27,17 @@ exports.companyGet = (req, res) => {
                 console.log(err);
             }
         });
-    } else {
+    } else if(req.query.type === "companyAllInactive"){
+        Company.find({status:false},
+            function (err, response) {
+            if (!err) {
+                // console.log("company: " + response);
+                res.json(response);
+            } else {
+                console.log(err);
+            }
+        });
+    }else {
         User.findOne({
                 _id: req.query._id
             },
@@ -60,7 +70,27 @@ exports.companyPost = (req, res) => {
                 console.log(err);
             }
         }); 
-    }else{
+    }
+    else if(matchPolicy.status==="delete"){
+        console.log("Status"+matchPolicy.status);
+            User.findByIdAndRemove({
+                _id: matchPolicy.id
+            },
+            function (error, response) {
+                if (!error) {
+                    console.log("response: " + response);
+                    res.json({
+                        status: "success",
+                        message: "Delete Successful!"
+                    });
+                    //console.log(response);
+                } else {
+                    console.log(err);
+                }
+            });
+        
+    }
+    else{
         Company.findOneAndUpdate({"company_name": matchPolicy.name}, {
             "$push": {
                 "match_policy": matchPolicy.policies
@@ -153,7 +183,8 @@ exports.registerPost = (req, res) => {
                     address: Address,
                     contact: RegInfo.bContact,
                     date_registered: Date.now(),
-                    description: RegInfo.bDescription
+                    description: RegInfo.bDescription,
+                    status:true
                     // logo: RegInfo,
                 })
                 console.log(NewCompany);

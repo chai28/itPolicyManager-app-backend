@@ -4,6 +4,7 @@ require("../models/policy.model.js");
 const Policy = mongoose.model('Policy');
 //company collection
 const companySchema = new Schema({
+  status: Boolean,
   company_name: String,
   company_email: String,
   nzbn: String,
@@ -15,7 +16,7 @@ const companySchema = new Schema({
   user: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }],
+  }],  
   subscribed_policy: [{
     name: String,
     status: String,

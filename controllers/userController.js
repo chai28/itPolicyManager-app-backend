@@ -39,7 +39,8 @@ exports.userPost = (req, res) => {
                 console.log(err);
             }
         });
-    }else if(contactInfo.action === "add"){
+    }   
+    else if(contactInfo.action === "add"){
         let contactInfo = req.body; //Get the parsed information
         console.log(contactInfo);
         if (!contactInfo) {
@@ -68,7 +69,8 @@ exports.userPost = (req, res) => {
                         fname: contactInfo.fname,
                         lname: contactInfo.lname,
                         email: contactInfo.email,
-                        position: contactInfo.position
+                        position: contactInfo.position,
+                        Status:false
                         });
                         console.log(NewUser);
                         NewUser.save(function(err) {
@@ -95,5 +97,7 @@ exports.userPost = (req, res) => {
             }
         });
     }
+    
     }
+    
 }

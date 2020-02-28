@@ -4,9 +4,10 @@ const User = mongoose.model('User');
 const Company = mongoose.model('Company');
 
 exports.editProfileGet = (req, res) => {
-    console.log("id: " + req.query._id);
+    console.log("Inside editProfileGet()");
+    console.log("company_id: " + req.params.id);
     User.findOne({
-            _id: req.query._id
+            company: req.params.id
         },
         function (err, response) {
             if (!err) {
@@ -32,6 +33,40 @@ exports.editProfileGet = (req, res) => {
 
         });
 };
+
+exports.editProfilePut= async (req,res)=>{
+    let companyInfo=req.body;
+    // Company.findOneAndUpdate(
+    //     {"_id": companyInfo.companyId}, // find the id that you want to update
+    //     {
+    //         // fields that you want to update
+    //         $set: {"status": false}
+    //     },
+    //     (err) => { console.log(err); }
+    // );
+    
+    Company.findOne({
+        _id:companyInfo.companyId
+    },
+    function(err,company){
+        if(err){
+            console.log(err);
+            console.log(company._id);
+        }
+        else{
+            console.log(company);
+            console.log("companyId:"+company._id);
+            company.status = companyInfo.status;
+            console.log(company.status);
+            company.save();
+                   status = "success";
+                   res.json({
+                       status
+                     });
+        }
+    }
+    );
+}
 
 exports.editProfilePost = (req, res) => {
     console.log("company id: " + req.body._id);
