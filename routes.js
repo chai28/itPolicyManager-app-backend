@@ -4,6 +4,7 @@ const router = express.Router();
 // define controllers here
 const loginController = require("./controllers/loginController");
 const questionController = require("./controllers/questionController");
+const assessmentController = require("./controllers/assessmentController");
 const companyController = require("./controllers/companyController");
 const userController = require("./controllers/userController");
 const policyController = require("./controllers/policyController");
@@ -35,6 +36,10 @@ router.post("/policies", policyController.policiesPost);
 router.get("/questions", questionController.questionsGet);
 router.post("/questions", questionController.questionsPost);
 
+//get assessment
+router.get("/assessment", assessmentController.assessmentGet);
+router.post("/assessment", assessmentController.assessmentPost);
+
 //payment
 router.get("/create_paymentintent", createPaymentController.createPaymentGet);
 router.post("/create_paymentintent", createPaymentController.createPaymentPost);
@@ -52,6 +57,9 @@ router.get("/subscribedPolicy", subscribedPolicyController.subscribedPolicyGet);
 router.post("/subscribedPolicy",subscribedPolicyController.subscribedPolicyPost);
 
 //review subscribed policy
+
+router.get("/getAllPolicies/", policyController.getAllPolicies);
+router.get("/getOnePolicy/:id", policyController.getOnePolicy);
 router.get("/reviewPolicy", reviewPolicyController.reviewPolicyGet);
 router.post("/reviewPolicy", reviewPolicyController.reviewPolicyPost);
 
