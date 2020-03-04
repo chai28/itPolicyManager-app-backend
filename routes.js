@@ -41,6 +41,7 @@ router.post("/create_paymentintent", createPaymentController.createPaymentPost);
 
 //edit profile
 router.get("/editprofile/:id", editProfileController.editProfileGet);
+router.get("/edituserprofile/:id", editProfileController.editUserProfileGet);
 router.post("/editprofile", editProfileController.editProfilePost);
 router.post("/deleteprofile",editProfileController.editProfilePut);
 

@@ -28,7 +28,38 @@ exports.editProfileGet = (req, res) => {
 
                     });
             } else {
-                console.log(err);
+                console.log(err);                
+            }
+
+        });
+};
+
+exports.editUserProfileGet = (req, res) => {
+    console.log("Inside editProfileGet()");
+    console.log("company_id: " + req.params.id);
+    User.findOne({
+            _id: req.params.id
+        },
+        function (err, response) {
+            if (!err) {
+                console.log("company ID: " + response.company);
+                Company.findById({
+                        _id: response.company
+                    },
+                    function (err, companyDetails) {
+                        console.log("companyInfo: " + companyDetails);
+                        if (err) {
+                            res.json(err);
+                        } else {
+                            res.json({
+                                companyDetails,
+                                message: "editProfileGet is working"
+                            });
+                        }
+
+                    });
+            } else {
+                console.log(err);                
             }
 
         });
