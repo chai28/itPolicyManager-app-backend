@@ -22,6 +22,7 @@ const companySchema = new Schema({
     status: String,
     accesslink: String,
     date_subscribed: Date,
+    date_review: Date,
     date_expired: Date,
     version : Number,
     content: {},
