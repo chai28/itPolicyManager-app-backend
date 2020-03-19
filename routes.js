@@ -31,6 +31,8 @@ router.post("/user", userController.userPost);
 //policy
 router.get("/policies", policyController.policiesGet);
 router.post("/policies", policyController.policiesPost);
+//router.get("/getSuggestedPolicy", companyController.getSuggestedPolicy);
+
 
 //get questions
 router.get("/questions", questionController.questionsGet);
