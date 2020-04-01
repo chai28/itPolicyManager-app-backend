@@ -43,7 +43,7 @@ const transporter = Nodemailer.createTransport({
 
 
 exports.reviewPolicyPost = async (req, res) => {
-    let dataInfo = req.body.data; //Get the parsed information
+    let dataInfo = req.body.data; //Get the parsed information    
     Company.findOne({
         company_name: dataInfo.company_name
     }, function (error, companyDetails) {
@@ -51,40 +51,49 @@ exports.reviewPolicyPost = async (req, res) => {
             console.log("Error: " + error);
         } else {
             let policy = companyDetails.subscribed_policy;
+            for(let i=0;i<policy.length;i++){
+                if(dataInfo.status==="not reviewed" && policy[i].name===dataInfo.policyName){                    
+                    policy[i].reviewer=dataInfo.reviewerList;
+                    if(dataInfo.isPolicyBlocked===false){
+                        policy[i].status="confirmation";
+                    }
+                }
+                
+            }
 
             //update policy status
-            for (let i = 0; i < policy.length; i++) {
-                if (policy[i].name === dataInfo.policyName) {
-                    console.log(policy[i].name); //test
-                    if (dataInfo.status === "not reviewed") {
-                        // console.log("confirmation")
-                        policy[i].status = "confirmation";
-                        policy[i].reviewer = dataInfo.reviewerList;
-                        // console.log("policy[i].reviewer" + policy[i].reviewer)
-                    } else if (dataInfo.status === "confirmation") {
-                        // console.log("adoption")
-                        policy[i].status = "adoption";
-                        policy[i].reviewer = dataInfo.reviewerList;
-                        // console.log("policy[i].reviewer" + policy[i].reviewer)
-                    } else if (dataInfo.status === "adoption") {
-                        // console.log("awareness")
-                        policy[i].status = "awareness";
-                        policy[i].reviewer = dataInfo.reviewerList;
-                        // console.log("policy[i].reviewer" + policy[i].reviewer)
-                    } else if (dataInfo.status === "awareness") {
-                        // console.log("reporting")
-                        policy[i].status = "reporting";
-                        policy[i].reviewer = dataInfo.reviewerList;
-                        // console.log("policy[i].reviewer" + policy[i].reviewer)
-                    } else {
-                        // console.log("done")
-                        policy[i].status = "done";
-                    }
-                    break;
-                }
-            }
+            // for (let i = 0; i < policy.length; i++) {
+            //     if (policy[i].name === dataInfo.policyName) {
+            //         console.log(policy[i].name); //test
+            //         if (dataInfo.status === "not reviewed") {
+            //             // console.log("confirmation")
+            //             policy[i].status = "confirmation";
+            //             policy[i].reviewer = dataInfo.reviewerList;
+            //             // console.log("policy[i].reviewer" + policy[i].reviewer)
+            //         } else if (dataInfo.status === "confirmation") {
+            //             // console.log("adoption")
+            //             policy[i].status = "adoption";
+            //             policy[i].reviewer = dataInfo.reviewerList;
+            //             // console.log("policy[i].reviewer" + policy[i].reviewer)
+            //         } else if (dataInfo.status === "adoption") {
+            //             // console.log("awareness")
+            //             policy[i].status = "awareness";
+            //             policy[i].reviewer = dataInfo.reviewerList;
+            //             // console.log("policy[i].reviewer" + policy[i].reviewer)
+            //         } else if (dataInfo.status === "awareness") {
+            //             // console.log("reporting")
+            //             policy[i].status = "reporting";
+            //             policy[i].reviewer = dataInfo.reviewerList;
+            //             // console.log("policy[i].reviewer" + policy[i].reviewer)
+            //         } else {
+            //             // console.log("done")
+            //             policy[i].status = "done";
+            //         }
+            //         break;
+            //     }
+            // }
             companyDetails.subscribed_policy = policy;
-            // console.log("companyDetails.subscribed_policy ==> " + companyDetails.subscribed_policy)
+            console.log("companyDetails.subscribed_policy ==> " + companyDetails.subscribed_policy)
             Company.updateOne({_id: companyDetails._id},{
                 subscribed_policy: companyDetails.subscribed_policy
             }, function (err, response) {
@@ -113,7 +122,9 @@ exports.reviewPolicyPost = async (req, res) => {
                                 } else {
                                     status = "reviewed";
                                 }
-                                userDetails.user_type = status;
+                                userDetails.user_type = "";
+                                console.log("Datainfo"+companyDetails.subscribed_policy.name)
+                                userDetails.reviewPolicyList.push(dataInfo.policy_name);
                                 //Generate access link
                                 let pName = dataInfo.policyName.replace(/\s+/g, "-");
                                 let generalLink = ("http://localhost:3000/review-policy/" +

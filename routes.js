@@ -30,9 +30,12 @@ router.post("/user", userController.userPost);
 
 //policy
 router.get("/policies", policyController.policiesGet);
+
 router.post("/policies", policyController.policiesPost);
 //router.get("/getSuggestedPolicy", companyController.getSuggestedPolicy);
 
+
+router.put("/edit-policy", policyController.updatePolicy);
 
 //get questions
 router.get("/questions", questionController.questionsGet);
@@ -58,7 +61,10 @@ router.post("/surveyResult", surveyResultController.surveyResultPost);
 
 //subscribed policy
 router.get("/subscribedPolicy", subscribedPolicyController.subscribedPolicyGet);
+router.get("/getSubscribedPolicy", subscribedPolicyController.getSubscribedPolicy);
 router.post("/subscribedPolicy",subscribedPolicyController.subscribedPolicyPost);
+router.post("/addSubscribedPolicy/",subscribedPolicyController.subscribedPolicySave);
+router.post("/updateSubscribedPolicy",subscribedPolicyController.subscribedPolicyUpdate);
 
 //review subscribed policy
 
