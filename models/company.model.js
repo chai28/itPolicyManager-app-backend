@@ -52,10 +52,12 @@ const userSchema = new Schema({
   position: String,
   username: String,
   password: String,
+  review_status:Boolean,
   company: {
     type: Schema.Types.ObjectId,
     ref: 'Company'
-  }
+  },
+  reviewPolicyList:[]
 });
 
 

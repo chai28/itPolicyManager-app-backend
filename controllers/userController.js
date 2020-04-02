@@ -5,9 +5,25 @@ const User = mongoose.model('User');
 exports.userGet = (req, res) => {
     let users = [];
     //Get user information to get the company ID
-    User.find({
-        company: req.query.companyId
-        }, function (err, response) {
+    if(req.query.companyId!==""){
+        User.find({
+            company: req.query.companyId
+            }, function (err, response) {
+                if (!err) {
+                    console.log("key contacts: " + response);
+                    users = response;
+                    console.log("users: " + users);
+                    res.json(users);
+                } else {
+                    console.log(err);
+                }
+            }
+        );
+    }
+    else{
+        User.findById({
+            _id:req.query._id
+        },function (err, response) {
             if (!err) {
                 console.log("key contacts: " + response);
                 users = response;
@@ -17,7 +33,9 @@ exports.userGet = (req, res) => {
                 console.log(err);
             }
         }
-    );
+        );
+    }
+    
 };
 
 exports.userPost = (req, res) => {
