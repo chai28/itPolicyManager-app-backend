@@ -60,3 +60,15 @@ exports.getOnePolicy = (req, res) => {
     });
 
 }
+
+
+
+exports.getAssessment = async (req, res) => {
+    let id = req.body.policy_id;
+    
+    const policy = await Policies.findOne(
+        { "_id": id }
+    );
+
+    console.log(policy);
+}

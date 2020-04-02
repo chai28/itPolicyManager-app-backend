@@ -24,9 +24,11 @@ router.get("/company", companyController.companyGet);
 router.post("/company", companyController.companyPost);
 router.post("/register", companyController.registerPost);
 
+
 //company controller
 router.get("/user", userController.userGet);
 router.post("/user", userController.userPost);
+router.post("/addUser", userController.addAccountablePerson);
 
 //policy
 router.get("/policies", policyController.policiesGet);
@@ -35,11 +37,12 @@ router.post("/policies", policyController.policiesPost);
 //get questions
 router.get("/questions", questionController.questionsGet);
 router.post("/questions", questionController.questionsPost);
+router.post("/deleteQuestions",questionController.questionsDelete);
 
 //get assessment
-router.get("/assessment", assessmentController.assessmentGet);
-router.post("/assessment", assessmentController.assessmentPost);
-
+router.get("/assessment", policyController.getAssessment);
+router.put("/assessment", assessmentController.updateAssessment);
+router.post("/deleteassessment",assessmentController.assessmentDelete);
 //payment
 router.get("/create_paymentintent", createPaymentController.createPaymentGet);
 router.post("/create_paymentintent", createPaymentController.createPaymentPost);
