@@ -138,6 +138,8 @@ exports.subscribedPolicySave = (req, res) => {
             policy_name:subscribedPolicyDetails.name,  
             content:subscribedPolicyDetails.content,          
             reviewed_date:subscribedPolicyDetails.reviewed_date,
+            approval_date:subscribedPolicyDetails.approval_date,
+            date_subscribed:subscribedPolicyDetails.date_subscribed,
             status:subscribedPolicyDetails.status,
             version:subscribedPolicyDetails.version
            // reviewer_list:subscribedPolicyDetails.reviewer_list
