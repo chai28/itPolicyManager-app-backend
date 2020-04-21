@@ -158,6 +158,8 @@ exports.subscribedPolicySave = (req, res) => {
             policy_name:subscribedPolicyDetails.name,  
             content:subscribedPolicyDetails.content,          
             reviewed_date:subscribedPolicyDetails.reviewed_date,
+            approval_date:subscribedPolicyDetails.approval_date,
+            date_subscribed:subscribedPolicyDetails.date_subscribed,
             status:subscribedPolicyDetails.status,
             date_subscribed: moment(),
             date_expired: moment().add(12, 'M'),

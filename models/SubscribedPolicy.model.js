@@ -12,6 +12,7 @@ const SubscribedPolicy = new Schema({
     version:Number, 
     date_subscribed:Date,
     date_expired:Date, 
+    approval_date:Date,  
     reviewer_list:[{
       reviewer_id:String,
       review_status: {type: Boolean, default: false},
