@@ -43,6 +43,7 @@ exports.signInPost = (req, res) => {
                     if (err) {
                         res.json(err)
                     } else {
+                        console.log("UserID: "+response.companyUserId)
                         if (response.password === LoginInfo.password) {
                             //company name
                             CompanyDetails.findOne({
@@ -53,13 +54,15 @@ exports.signInPost = (req, res) => {
                                 } else {
                                     sess=req.session;
                                     sess.userId=response._id;
-                                    sess.cpmpanyId=response.company;
+                                    sess.cmpanyId=response.company;
                                     res.json({
                                         message: "Welcome " + LoginInfo.username,
                                         value: true,
+                                        companyId:response.company,
                                         userId: response._id,
                                         userType: response.user_type,
-                                        company_name: response2.company_name
+                                        company_name: response2.company_name,
+                                        companyUserId:response.companyUserId
                                     })
                                 }
                             })

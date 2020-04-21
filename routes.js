@@ -14,6 +14,7 @@ const createPaymentController = require("./controllers/createPaymentController")
 const editProfileController = require("./controllers/editProfileController");
 const reviewPolicyController = require("./controllers/reviewController");
 const clientReviewPolicyController = require("./controllers/clientReviewerController");
+const assessmentResultController=require("./controllers/assessmentResultController");
 
 //Login
 router.get("/signin", loginController.signInGet);
@@ -68,6 +69,7 @@ router.get("/getSubscribedPolicy", subscribedPolicyController.getSubscribedPolic
 router.post("/subscribedPolicy",subscribedPolicyController.subscribedPolicyPost);
 router.post("/addSubscribedPolicy/",subscribedPolicyController.subscribedPolicySave);
 router.post("/updateSubscribedPolicy",subscribedPolicyController.subscribedPolicyUpdate);
+router.post("/sendAssessmentToReviewers",subscribedPolicyController.sendAssessmentToReviewers);
 
 //review subscribed policy
 
@@ -80,4 +82,6 @@ router.post("/reviewPolicy", reviewPolicyController.reviewPolicyPost);
 router.get("/clientReviewer", clientReviewPolicyController.clientReviewerGet);
 router.post("/clientReviewer", clientReviewPolicyController.clientReviewerPost);
 
+//Assessment Result
+router.post("/assessmentResult",assessmentResultController.PostResult);
 module.exports = router;

@@ -38,7 +38,7 @@ const companySchema = new Schema({
 const userSchema = new Schema({
   user_type: {
     type: String,
-    enum: ['comp_initiator', 'confirmation', 'adoption', 'trainee']
+    enum: ['comp_initiator', 'confirmation', 'adoption', 'trainee','Accountable Person']
   },
   roleStatus: {
     type: String,
@@ -49,10 +49,10 @@ const userSchema = new Schema({
   email: String,
   address: String,
   contact: String,
-  position: String,
   username: String,
   password: String,
   review_status:Boolean,
+  companyUserId:Schema.Types.ObjectId,
   company: {
     type: Schema.Types.ObjectId,
     ref: 'Company'

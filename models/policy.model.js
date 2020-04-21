@@ -10,7 +10,8 @@ const policySchema = new Schema({
         assessment_content: String,
         options: [{
           name: String
-        }]
+        }],
+        correct_answer:Number
       }
     ]
   });

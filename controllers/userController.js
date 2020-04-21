@@ -4,11 +4,15 @@ const User = mongoose.model('User');
 
 exports.userGet = (req, res) => {
     let users = [];
+    console.log("Companyfdhgs"+req.query.companyId)
     //Get user information to get the company ID
     if(req.query.companyId!==""){
-        User.find({
-            company: req.query.companyId
-            }, function (err, response) {
+        if(req.query.user_type==='Accountable Person'){
+            console.log("I amABC")
+            User.findOne({
+                companyUserId:req.query.companyId,
+                user_type:req.query.user_type
+            },function(err,response){
                 if (!err) {
                     console.log("key contacts: " + response);
                     users = response;
@@ -17,10 +21,26 @@ exports.userGet = (req, res) => {
                 } else {
                     console.log(err);
                 }
-            }
-        );
-    }
-    else{
+            })
+        }else{
+            
+            User.find({
+                company: req.query.companyId
+                }, function (err, response) {
+                    if (!err) {
+                        console.log("key contacts: " + response);
+                        users = response;
+                        console.log("users: " + users);
+                        res.json(users);
+                    } else {
+                        console.log(err);
+                    }
+                }
+            );
+        }
+        
+    }else{
+        console.log("userID: "+req.query._id)
         User.findById({
             _id:req.query._id
         },function (err, response) {
@@ -122,21 +142,23 @@ exports.userPost = (req, res) => {
 
 exports.addAccountablePerson=(req,res)=>{
     let userDetails=req.body;
-    console.log("userDetails"+userDetails);
+    console.log("userDetails"+userDetails.AAddress);
     if (!userDetails) {
         res.json({
             message: "No Input"
         })
     } else {
+            var companyId;
                    // console.log("response: " + company);
             // console.log("error: " + error);
             //Save the Address
-            let Address;
-            if(userDetails.AAddr && userDetails.AAddr2 && userDetails.ACity&&userDetails.AState&&userDetails.AState&&userDetails.AZip){
-                Address = userDetails.AAddr + " " + userDetails.AAddr2 + " " + userDetails.ACity + " " + userDetails.AState + " " + userDetails.AZip;
-            }else{
-                 Address="";
-            }
+            User.findOne({_id:userDetails.company},
+                function(error,response){
+                  if(!error){
+                      companyId=response.company;
+                  
+                console.log("fhghj"+companyId)
+
             let username=setupUsername(userDetails.fNameInput,userDetails.lNameInput);
             let password=setupPassword();
             // console.log("Address: " + Address);
@@ -145,12 +167,13 @@ exports.addAccountablePerson=(req,res)=>{
                     lname: userDetails.lNameInput,
                     email: userDetails.AEmail,
                     // nzbn: userDetails.nzbnInput,
-                    address: Address,
+                    address: userDetails.AAddress,
                     contact: userDetails.AContact,
-                    position: "Accountable Person",
+                    user_type: 'Accountable Person',
                     username:username,
                     password:password,
-                    company:userDetails.company
+                    company:companyId,
+                    companyUserId:userDetails.company
                     // logo: RegInfo,
                 })
                 console.log(NewUser);
@@ -174,6 +197,8 @@ exports.addAccountablePerson=(req,res)=>{
 
 
                         })
+                    }
+            });
                         res.json({
                             message: "Registration Successful!",
                             value:true,

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require("../models/assessment.model.js");
+//require("../models/assessment.model.js");
 // const Assessment = mongoose.model('Assessment');
 const Policies = require("../models/policy.model.js");
 
