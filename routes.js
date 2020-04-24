@@ -24,6 +24,7 @@ router.post("/signin", loginController.signInPost);
 router.get("/company", companyController.companyGet);
 router.post("/company", companyController.companyPost);
 router.post("/register", companyController.registerPost);
+router.post("/deleteCompany",companyController.companyDelete);
 
 
 //company controller

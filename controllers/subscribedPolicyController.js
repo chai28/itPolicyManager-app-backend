@@ -181,7 +181,7 @@ exports.subscribedPolicySave = (req, res) => {
 
 exports.subscribedPolicyUpdate = (req,res) => {
     let subscribedPolicyDetails=req.body;
-    console.log(subscribedPolicyDetails.company_name)
+    console.log("ASD"+subscribedPolicyDetails.company_name)
     if(subscribedPolicyDetails.content!==null){
         SubscribedPolicy.findOneAndUpdate(
             {
@@ -218,6 +218,7 @@ exports.subscribedPolicyUpdate = (req,res) => {
                     if (!error) {
                         let user=[];
                             console.log("Subscribed Policy Reviewers: "+subscribedPolicyDetails.reviewer_list)
+                            subscribedPolicy.reviewed_date=Date.now();
                             subscribedPolicy.reviewer_list=subscribedPolicyDetails.reviewer_list;
                             subscribedPolicy.save();
                             for(let i=0;i<subscribedPolicyDetails.reviewer_list.length;i++){
@@ -278,7 +279,7 @@ exports.sendAssessmentToReviewers=(req,res)=>{
             const mailOptions={
                 from: 'itpsychiatrist.policymanager@gmail.com', // sender address
                 to: details.email, 
-                subject:'The policy is not reviewed',
+                subject:'Awareness Assessment',
                 html: 'You have been set to take a short test for ' + response.policy_name + '</br></br>' +
                       'Below is the link to view and review the policy.<br><br>' +
                       '<a href=' + generalLink + '>CLICK HERE: Policy Assessment to be taken.</a>' +

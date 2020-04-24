@@ -249,6 +249,30 @@ exports.registerPost = (req, res) => {
     
 };
 
+exports.companyDelete=(req,res)=>{
+   let data=req.body;
+   Company.findByIdAndRemove({
+       _id:data.companyId
+   },function(error,response){
+       if(!error){
+           User.findOneAndRemove({company:data.companyId},function(error2,response2){
+               if(!error2){
+                res.json({
+                    status:"success"
+                })
+               }
+               else{
+                   console.log(error2)
+               }
+           })
+           
+       }
+       else{
+           console.log(error)
+       }
+   })   
+}
+
 
 exports.getSuggestedPolicy = async (req, res) => {
 
