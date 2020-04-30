@@ -49,6 +49,7 @@ const userSchema = new Schema({
   email: String,
   address: String,
   contact: String,
+  position:String,
   username: String,
   password: String,
   review_status:Boolean,
