@@ -17,7 +17,6 @@ const clientReviewPolicyController = require("./controllers/clientReviewerContro
 const assessmentResultController=require("./controllers/assessmentResultController");
 
 //Login
-router.get("/signin", loginController.signInGet);
 router.post("/signin", loginController.signInPost);
 
 //company controller
