@@ -3,7 +3,7 @@ const Company = require("../models/company.model.js");
 const User = mongoose.model('User');
 
 exports.signInPost = (request, response) => {
-    let loginData = makeFilter(request); //Get the parsed information
+    let loginData = filterRequest(request); //Get the parsed information
     User.findOne(loginData)
         .populate('company', 'company_name')
         .exec()
@@ -21,13 +21,11 @@ exports.signInPost = (request, response) => {
             }
         })
         .catch(error => {
-            if (error) {
-                logError(error);
-                response
-                    .status(500)
-                    // TODO change the error's message
-                    .json({error: error.toString()});
-            }
+            logError(error);
+            response
+                .status(500)
+                // TODO change the error's message
+                .json({error: error.toString()});
         });
 }
 
@@ -37,7 +35,7 @@ exports.signInPost = (request, response) => {
  * @param request
  * @returns Filter
  */
-function makeFilter(request) {
+function filterRequest(request) {
     let filter = {};
     filter.username = request.body.username;
     filter.password = request.body.password;
