@@ -13,6 +13,7 @@ exports.assessmentGet = (req, res) => {
     // });
 };
 
+//Delete assessment questions
 exports.assessmentDelete = (req,res) => {
     console.log(req.body._id);
     Questions.findByIdAndRemove({_id:req.body._id},
@@ -30,6 +31,7 @@ exports.assessmentDelete = (req,res) => {
         });
 }
 
+//Add assessment questions
 function addAssessment(assessment,id){
     Policies.findByIdAndUpdate(id,
         {assessments:assessment}
@@ -44,6 +46,7 @@ function addAssessment(assessment,id){
     
 }
 
+//Update assessment
 exports.updateAssessment = (req, res) => {
     let id = req.body.policy_id;
     let new_assessment = req.body.assessmentInputs;

@@ -3,6 +3,7 @@ require("../models/company.model.js");
 const User = mongoose.model('User');
 const Company = mongoose.model('Company');
 
+//get user records
 exports.editProfileGet = (req, res) => {
     console.log("Inside editProfileGet()");
     console.log("company_id: " + req.params.id);
@@ -34,6 +35,7 @@ exports.editProfileGet = (req, res) => {
         });
 };
 
+//get user's info
 exports.editUserProfileGet = (req, res) => {
     console.log("Inside editProfileGet()");
     console.log("company_id: " + req.params.id);
@@ -65,6 +67,7 @@ exports.editUserProfileGet = (req, res) => {
         });
 };
 
+//update edited profile for user
 exports.editProfilePut= async (req,res)=>{
     let companyInfo=req.body;
     // Company.findOneAndUpdate(
@@ -99,6 +102,7 @@ exports.editProfilePut= async (req,res)=>{
     );
 }
 
+//update edited profile for user
 exports.editProfilePost = (req, res) => {
     console.log("company id: " + req.body._id);
     console.log(req.body);

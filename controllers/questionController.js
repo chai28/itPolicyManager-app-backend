@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 require("../models/question.model.js");
 const Questions = mongoose.model('Questions');
 
+//get questions
 exports.questionsGet = (req, res) => {
     Questions.find(function (err, questions) {
         if (err) {
@@ -17,6 +18,7 @@ exports.questionsDelete = (req,res) => {
     
 };
 
+//add questions
 function addQuestions(question){
     var question=new Questions({
         question_content:question.question_content,
@@ -25,7 +27,7 @@ function addQuestions(question){
     question.save();
 }
 
-
+//update questions
 exports.questionsPost = (req, res) => {
     var questionDetails=req.body;
     questionDetails.questionInputs.map((question) => {

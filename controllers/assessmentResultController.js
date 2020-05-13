@@ -2,6 +2,7 @@ const mongoose=require("mongoose");
 require("../models/assessmentResult.model.js");
 const AssessmentResult=mongoose.model("AssessmentResult");
 
+//Save the score from assessment result
 exports.PostResult=(req,res)=>{
    var data=req.body;
    var result=new AssessmentResult({
