@@ -1,80 +1,92 @@
 const mongoose = require('mongoose');
 const Company = require("../models/company.model.js");
 const User = mongoose.model('User');
-const CompanyDetails = mongoose.model('Company');
-var session = require('express-session');
-var MongoDBStore = require('connect-mongodb-session')(session);
 
-
-// const FileStore = require('session-file-store')(session);
-
-
-exports.signInGet = (req, res) => {
-
-    res.send({
-        message: "Get is working"
-    });
-
-};
-
-exports.signInPost = (req, res) => {
-    let LoginInfo = req.body; //Get the parsed information
-    console.log(LoginInfo);
-    if (!LoginInfo.username || !LoginInfo.password) {
-        res.json({
-            message: "Wrong input"
-        })
-    } else {
-        // res.send(LoginInfo);
-        User.findOne({
-            username: LoginInfo.username
-        }, function (error, response) {
-            console.log("response: " + response);
-            console.log("error: " + error);
-            if (error) {
-                res.json({
-                    message: "No UserName matched for: " + response
-                })
+exports.signInPost = (request, response) => {
+    let loginData = filterRequest(request); //Get the parsed information
+    User.findOne(loginData)
+        .populate('company', 'company_name')
+        .exec()
+        .then(result => {
+            if (!result) {
+                // If no user has been found
+                response
+                    .status(401)
+                    .json(getUserNotFoundMessage());
             } else {
-                User.findOne({
-                    username: LoginInfo.username
-                }, function (err, response) {
-                    console.log("response: " + response);
-                    if (err) {
-                        res.json(err)
-                    } else {
-                        console.log("UserID: "+response.companyUserId)
-                        if (response.password === LoginInfo.password) {
-                            //company name
-                            CompanyDetails.findOne({
-                                _id: response.company
-                            },function (err, response2) {
-                                if (err) {
-                                    res.json(err)
-                                } else {
-                                    sess=req.session;
-                                    sess.userId=response._id;
-                                    sess.cmpanyId=response.company;
-                                    res.json({
-                                        message: "Welcome " + LoginInfo.username,
-                                        value: true,
-                                        companyId:response.company,
-                                        userId: response._id,
-                                        userType: response.user_type,
-                                        company_name: response2.company_name,
-                                        companyUserId:response.companyUserId
-                                    })
-                                }
-                            })
-                        } else {
-                            res.json({
-                                message: "Wrong username or password!",
-                                value: false
-                            })  
-                        } 
-                    }
-                })
-            };
+                createSession(result, request);
+                response
+                    .status(200)
+                    .json(getLoginMessage(result));
+            }
+        })
+        .catch(error => {
+            logError(error);
+            response
+                .status(500)
+                // TODO change the error's message
+                .json({error: error.toString()});
         });
+}
+
+/**
+ * Extracts required data form the request
+ * in order to create filter for user search
+ * @param request
+ * @returns Filter
+ */
+function filterRequest(request) {
+    let filter = {};
+    filter.username = request.body.username;
+    filter.password = request.body.password;
+    return filter;
+}
+
+/**
+ * Processes an error occurrence
+ * @param error - Error
+ */
+function logError(error) {
+    console.log("error: " + error);
+}
+
+/**
+ * Creates a message, if by given credentials not a single user has been found
+ * @returns Message object
+ */
+function getUserNotFoundMessage() {
+    return {
+        message: "Wrong username or password!",
+        value: false
     };
-};
+}
+
+/**
+ * Creates a message, in case of successful login
+ * @param result
+ * @returns Message object
+ */
+function getLoginMessage(result) {
+    return {
+        message: "Welcome " + result.username,
+        value: true,
+        userId: result._id,
+        userType: result.user_type,
+        companyId: result.company._id,
+        company_name: result.company.company_name
+    };
+}
+
+// TODO
+//  Find out how to handle sessions within ExpressJS,
+//  not sure if this code works properly
+/**
+ * SUPPOSED to create session, but I am not sure
+ * @param result
+ * @param request
+ */
+function createSession(result, request) {
+    sess = request.session;
+    sess.userId = result._id;
+    sess.cmpanyId = result.company._id;
+}
