@@ -4,9 +4,6 @@ const mongoose = require('mongoose');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 
-// Define routes here
-const indexRoute = require('./routes');
-
 // invoke express on port 5000
 const app = express();
 const port = process.env.PORT || 5000;
@@ -47,9 +44,9 @@ connection.once('open', function () {
 app.use(cors());
 app.use(express.json());
 
-// invoke routes
+// Routing
+const indexRoute = require('./routes');
 app.use('/', indexRoute);
-
 
 app.listen(port, function () {
   console.log("Server is running on Port: " + port);
