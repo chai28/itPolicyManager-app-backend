@@ -1,0 +1,5 @@
+{"_id":{"$oid":"5e9db15c5588e2054472f9b0"},"score":{"$numberInt":"1"},"assessment_taken_date":{"$date":{"$numberLong":"1587392860834"}},"reviewer_id":{"$oid":"5e08100c1f029b1e18e61808"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5e9db1c15588e2054472f9b1"},"score":{"$numberInt":"3"},"assessment_taken_date":{"$date":{"$numberLong":"1587392961405"}},"reviewer_id":{"$oid":"5e08100c1f029b1e18e61808"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5ea035a1e7354a1cf40d8ad0"},"score":{"$numberInt":"2"},"assessment_taken_date":{"$date":{"$numberLong":"1587557793034"}},"reviewer_id":{"$oid":"5e08103e1f029b1e18e61809"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5ea136528f98071f880db4ad"},"score":{"$numberInt":"2"},"assessment_taken_date":{"$date":{"$numberLong":"1587623506301"}},"reviewer_id":{"$oid":"5e08103e1f029b1e18e61809"},"__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5ea55c93e2b67d38d0c731fb"},"score":{"$numberInt":"2"},"assessment_taken_date":{"$date":{"$numberLong":"1587895443441"}},"reviewer_id":{"$oid":"5ea259a771ae572cf4107e30"},"__v":{"$numberInt":"0"}}

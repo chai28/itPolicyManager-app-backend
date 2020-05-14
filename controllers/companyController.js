@@ -2,10 +2,14 @@ const mongoose = require('mongoose');
 require("../models/company.model.js");
 const Company = mongoose.model('Company');
 const User = mongoose.model('User');
+const Policy = mongoose.model('Policy');
 
 exports.companyGet = (req, res) => {
+    const companyDetails=req.query;
+    console.log("Type"+companyDetails._id);
     //Get user information to get the company ID
     if (req.query.type === "company") {
+        console.log("I am here");
         Company.findOne({
                 company_name: req.query._id
             },
@@ -18,7 +22,7 @@ exports.companyGet = (req, res) => {
                 }
             });
     } else if(req.query.type === "companyAll"){
-        Company.find({},
+        Company.find({status:true},
             function (err, response) {
             if (!err) {
                 // console.log("company: " + response);
@@ -27,13 +31,24 @@ exports.companyGet = (req, res) => {
                 console.log(err);
             }
         });
-    } else {
+    } else if(req.query.type === "companyAllInactive"){
+        Company.find({status:false},
+            function (err, response) {
+            if (!err) {
+                // console.log("company: " + response);
+                res.json(response);
+            } else {
+                console.log(err);
+            }
+        });
+    }else {
+        console.log("My role is user"+req.query._id)
         User.findOne({
-                _id: req.query._id
+                "_id": req.query._id
             },
             function (err, response) {
                 if (!err) {
-                    // console.log("user: " + response);
+                    console.log("user: " + response);
                     res.json(response);
                 } else {
                     console.log(err);
@@ -44,9 +59,11 @@ exports.companyGet = (req, res) => {
 
 exports.companyPost = (req, res) => {
     let matchPolicy = req.body;
+    console.log("Policies:"+matchPolicy.policies);
     // console.log(matchPolicy.policies);
     // console.log("company id: " + matchPolicy.id);
     if(matchPolicy.status === "new"){
+        console.log("I am new");
         Company.findByIdAndUpdate(matchPolicy.id, {
             "$push": {
                 "match_policy": matchPolicy.policies
@@ -60,7 +77,27 @@ exports.companyPost = (req, res) => {
                 console.log(err);
             }
         }); 
-    }else{
+    }
+    else if(matchPolicy.status==="delete"){
+        console.log("Status"+matchPolicy.status);
+            User.findByIdAndRemove({
+                _id: matchPolicy.id
+            },
+            function (error, response) {
+                if (!error) {
+                    console.log("response: " + response);
+                    res.json({
+                        status: "success",
+                        message: "Delete Successful!"
+                    });
+                    //console.log(response);
+                } else {
+                    console.log(err);
+                }
+            });
+        
+    }
+    else{
         Company.findOneAndUpdate({"company_name": matchPolicy.name}, {
             "$push": {
                 "match_policy": matchPolicy.policies
@@ -153,7 +190,8 @@ exports.registerPost = (req, res) => {
                     address: Address,
                     contact: RegInfo.bContact,
                     date_registered: Date.now(),
-                    description: RegInfo.bDescription
+                    description: RegInfo.bDescription,
+                    status:true
                     // logo: RegInfo,
                 })
                 console.log(NewCompany);
@@ -210,3 +248,46 @@ exports.registerPost = (req, res) => {
     };
     
 };
+
+exports.companyDelete=(req,res)=>{
+   let data=req.body;
+   Company.findByIdAndRemove({
+       _id:data.companyId
+   },function(error,response){
+       if(!error){
+           User.findOneAndRemove({company:data.companyId},function(error2,response2){
+               if(!error2){
+                res.json({
+                    status:"success"
+                })
+               }
+               else{
+                   console.log(error2)
+               }
+           })
+           
+       }
+       else{
+           console.log(error)
+       }
+   })   
+}
+
+
+exports.getSuggestedPolicy = async (req, res) => {
+
+    let user_id = req.query.user_id;
+
+    let query = await User.findOne({_id: user_id})
+        .populate({
+            path: 'company',
+            model: 'Company',
+            populate: {
+                path: 'match_policy',
+                model: 'Policy'
+            }
+        });
+
+    res.json(query);
+
+}

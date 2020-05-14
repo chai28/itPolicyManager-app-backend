@@ -4,6 +4,7 @@ require("../models/policy.model.js");
 const Policy = mongoose.model('Policy');
 //company collection
 const companySchema = new Schema({
+  status: Boolean,
   company_name: String,
   company_email: String,
   nzbn: String,
@@ -15,12 +16,13 @@ const companySchema = new Schema({
   user: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }],
+  }],  
   subscribed_policy: [{
     name: String,
     status: String,
     accesslink: String,
     date_subscribed: Date,
+    date_review: Date,
     date_expired: Date,
     version : Number,
     content: {},
@@ -36,7 +38,7 @@ const companySchema = new Schema({
 const userSchema = new Schema({
   user_type: {
     type: String,
-    enum: ['comp_initiator', 'confirmation', 'adoption', 'trainee']
+    enum: ['comp_initiator', 'confirmation', 'adoption', 'trainee','Accountable Person']
   },
   roleStatus: {
     type: String,
@@ -47,13 +49,16 @@ const userSchema = new Schema({
   email: String,
   address: String,
   contact: String,
-  position: String,
+  position:String,
   username: String,
   password: String,
+  review_status:Boolean,
+  companyUserId:Schema.Types.ObjectId,
   company: {
     type: Schema.Types.ObjectId,
     ref: 'Company'
-  }
+  },
+  reviewPolicyList:[]
 });
 
 
