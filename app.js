@@ -45,9 +45,6 @@ app.use(express.json());
 // Routing
 const indexRoute = require('./routes');
 app.use('/', indexRoute);
-// Handler for 404. This method must be placed after all other route
-const errorHandler = require("./controllers/errorHandlingController")
-app.use(errorHandler.NotFound);
 
 app.listen(port, function () {
     console.log("Server is running on Port: " + port);

@@ -6,7 +6,7 @@ const router = express.Router();
  */
 const errorHandlingController = require("./controllers/errorHandlingController");
 
-// define controllers here
+// Define controllers here
 const loginController = require("./controllers/loginController");
 const questionController = require("./controllers/questionController");
 const assessmentController = require("./controllers/assessmentController");
@@ -21,12 +21,12 @@ const reviewPolicyController = require("./controllers/reviewController");
 const clientReviewPolicyController = require("./controllers/clientReviewerController");
 const assessmentResultController = require("./controllers/assessmentResultController");
 
-//Login
+// Login
 router.route("/signin")
     .post(loginController.signInPost)
     .all(errorHandlingController.MethodNotAllowed);
 
-//company controller
+// Company controller
 router.route("/company")
     .get(companyController.companyGet)
     .post(companyController.companyPost)
@@ -38,7 +38,7 @@ router.route("/deleteCompany")
     .post(companyController.companyDelete)
     .all(errorHandlingController.MethodNotAllowed);
 
-//company controller
+// Company controller
 router.route("/user")
     .get(userController.userGet)
     .post(userController.userPost)
@@ -47,7 +47,7 @@ router.route("/addUser")
     .post(userController.addAccountablePerson)
     .all(errorHandlingController.MethodNotAllowed);
 
-//policy
+// Policy
 router.route("/policies")
     .get(policyController.policiesGet)
     .post(policyController.policiesPost)
@@ -57,7 +57,7 @@ router.route("/edit-policy")
     .put(policyController.updatePolicy)
     .all(errorHandlingController.MethodNotAllowed);
 
-//get questions
+// Get questions
 router.route("/questions")
     .get(questionController.questionsGet)
     .post(questionController.questionsPost)
@@ -66,7 +66,7 @@ router.route("/deleteQuestions")
     .post(questionController.questionsDelete)
     .all(errorHandlingController.MethodNotAllowed);
 
-//get assessment
+// Get assessment
 router.route("/assessment")
     .get(policyController.getAssessment)
     .put(assessmentController.updateAssessment)
@@ -75,13 +75,13 @@ router.route("/deleteassessment")
     .post(assessmentController.assessmentDelete)
     .all(errorHandlingController.MethodNotAllowed);
 
-//payment
+// Payment
 router.route("/create_paymentintent")
     .get(createPaymentController.createPaymentGet)
     .post(createPaymentController.createPaymentPost)
     .all(errorHandlingController.MethodNotAllowed);
 
-//edit profile
+// Edit profile
 router.route("/editprofile/:id")
     .get(editProfileController.editProfileGet)
     .all(errorHandlingController.MethodNotAllowed);
@@ -95,13 +95,13 @@ router.route("/deleteprofile")
     .post(editProfileController.editProfilePut)
     .all(errorHandlingController.MethodNotAllowed);
 
-//match policy or survey result
+// Match policy or survey result
 router.route("/surveyResult")
     .get(surveyResultController.surveyResultGet)
     .post(surveyResultController.surveyResultPost)
     .all(errorHandlingController.MethodNotAllowed);
 
-//subscribed policy
+// Subscribed policy
 router.route("/subscribedPolicy")
     .get(subscribedPolicyController.subscribedPolicyGet)
     .all(errorHandlingController.MethodNotAllowed);
@@ -121,7 +121,7 @@ router.route("/sendAssessmentToReviewers")
     .post(subscribedPolicyController.sendAssessmentToReviewers)
     .all(errorHandlingController.MethodNotAllowed);
 
-//review subscribed policy
+// Review subscribed policy
 router.route("/getAllPolicies/")
     .get(policyController.getAllPolicies)
     .all(errorHandlingController.MethodNotAllowed);
@@ -135,7 +135,7 @@ router.route("/reviewPolicy")
     .post(reviewPolicyController.reviewPolicyPost)
     .all(errorHandlingController.MethodNotAllowed);
 
-//Client review subscribed policy
+// Client review subscribed policy
 router.route("/clientReviewer")
     .get(clientReviewPolicyController.clientReviewerGet)
     .all(errorHandlingController.MethodNotAllowed);
@@ -143,9 +143,12 @@ router.route("/clientReviewer")
     .post(clientReviewPolicyController.clientReviewerPost)
     .all(errorHandlingController.MethodNotAllowed);
 
-//Assessment Result
+// Assessment Result
 router.route("/assessmentResult")
     .post(assessmentResultController.PostResult)
     .all(errorHandlingController.MethodNotAllowed);
+
+// Handler for 404. This method must be placed after all other routes
+router.use(errorHandlingController.NotFound);
 
 module.exports = router;
