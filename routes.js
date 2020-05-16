@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-// define controllers here
+/**
+ * Controller handling global errors
+ */
+const errorHandlingController = require("./controllers/errorHandlingController");
+
+// Define controllers here
 const loginController = require("./controllers/loginController");
 const questionController = require("./controllers/questionController");
 const assessmentController = require("./controllers/assessmentController");
@@ -14,74 +19,136 @@ const createPaymentController = require("./controllers/createPaymentController")
 const editProfileController = require("./controllers/editProfileController");
 const reviewPolicyController = require("./controllers/reviewController");
 const clientReviewPolicyController = require("./controllers/clientReviewerController");
-const assessmentResultController=require("./controllers/assessmentResultController");
+const assessmentResultController = require("./controllers/assessmentResultController");
 
-//Login
-router.post("/signin", loginController.signInPost);
+// Login
+router.route("/signin")
+    .post(loginController.signInPost)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//company controller
-router.get("/company", companyController.companyGet);
-router.post("/company", companyController.companyPost);
-router.post("/register", companyController.registerPost);
-router.post("/deleteCompany",companyController.companyDelete);
+// Company controller
+router.route("/company")
+    .get(companyController.companyGet)
+    .post(companyController.companyPost)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/register")
+    .post(companyController.registerPost)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/deleteCompany")
+    .post(companyController.companyDelete)
+    .all(errorHandlingController.MethodNotAllowed);
 
+// Company controller
+router.route("/user")
+    .get(userController.userGet)
+    .post(userController.userPost)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/addUser")
+    .post(userController.addAccountablePerson)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//company controller
-router.get("/user", userController.userGet);
-router.post("/user", userController.userPost);
-router.post("/addUser", userController.addAccountablePerson);
-
-//policy
-router.get("/policies", policyController.policiesGet);
-
-router.post("/policies", policyController.policiesPost);
+// Policy
+router.route("/policies")
+    .get(policyController.policiesGet)
+    .post(policyController.policiesPost)
+    .all(errorHandlingController.MethodNotAllowed);
 //router.get("/getSuggestedPolicy", companyController.getSuggestedPolicy);
+router.route("/edit-policy")
+    .put(policyController.updatePolicy)
+    .all(errorHandlingController.MethodNotAllowed);
 
+// Get questions
+router.route("/questions")
+    .get(questionController.questionsGet)
+    .post(questionController.questionsPost)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/deleteQuestions")
+    .post(questionController.questionsDelete)
+    .all(errorHandlingController.MethodNotAllowed);
 
-router.put("/edit-policy", policyController.updatePolicy);
+// Get assessment
+router.route("/assessment")
+    .get(policyController.getAssessment)
+    .put(assessmentController.updateAssessment)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/deleteassessment")
+    .post(assessmentController.assessmentDelete)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//get questions
-router.get("/questions", questionController.questionsGet);
-router.post("/questions", questionController.questionsPost);
-router.post("/deleteQuestions",questionController.questionsDelete);
+// Payment
+router.route("/create_paymentintent")
+    .get(createPaymentController.createPaymentGet)
+    .post(createPaymentController.createPaymentPost)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//get assessment
-router.get("/assessment", policyController.getAssessment);
-router.put("/assessment", assessmentController.updateAssessment);
-router.post("/deleteassessment",assessmentController.assessmentDelete);
-//payment
-router.get("/create_paymentintent", createPaymentController.createPaymentGet);
-router.post("/create_paymentintent", createPaymentController.createPaymentPost);
+// Edit profile
+router.route("/editprofile/:id")
+    .get(editProfileController.editProfileGet)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/edituserprofile/:id")
+    .get(editProfileController.editUserProfileGet)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/editprofile")
+    .post(editProfileController.editProfilePost)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/deleteprofile")
+    .post(editProfileController.editProfilePut)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//edit profile
-router.get("/editprofile/:id", editProfileController.editProfileGet);
-router.get("/edituserprofile/:id", editProfileController.editUserProfileGet);
-router.post("/editprofile", editProfileController.editProfilePost);
-router.post("/deleteprofile",editProfileController.editProfilePut);
+// Match policy or survey result
+router.route("/surveyResult")
+    .get(surveyResultController.surveyResultGet)
+    .post(surveyResultController.surveyResultPost)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//match policy or survey result
-router.get("/surveyResult", surveyResultController.surveyResultGet);
-router.post("/surveyResult", surveyResultController.surveyResultPost);
+// Subscribed policy
+router.route("/subscribedPolicy")
+    .get(subscribedPolicyController.subscribedPolicyGet)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/getSubscribedPolicy")
+    .get(subscribedPolicyController.getSubscribedPolicy)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/subscribedPolicy")
+    .post(subscribedPolicyController.subscribedPolicyPost)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/addSubscribedPolicy")
+    .post(subscribedPolicyController.subscribedPolicySave)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/updateSubscribedPolicy")
+    .post(subscribedPolicyController.subscribedPolicyUpdate)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/sendAssessmentToReviewers")
+    .post(subscribedPolicyController.sendAssessmentToReviewers)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//subscribed policy
-router.get("/subscribedPolicy", subscribedPolicyController.subscribedPolicyGet);
-router.get("/getSubscribedPolicy", subscribedPolicyController.getSubscribedPolicy);
-router.post("/subscribedPolicy",subscribedPolicyController.subscribedPolicyPost);
-router.post("/addSubscribedPolicy/",subscribedPolicyController.subscribedPolicySave);
-router.post("/updateSubscribedPolicy",subscribedPolicyController.subscribedPolicyUpdate);
-router.post("/sendAssessmentToReviewers",subscribedPolicyController.sendAssessmentToReviewers);
+// Review subscribed policy
+router.route("/getAllPolicies/")
+    .get(policyController.getAllPolicies)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/getOnePolicy/:id")
+    .get(policyController.getOnePolicy)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/reviewPolicy")
+    .get(reviewPolicyController.reviewPolicyGet)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/reviewPolicy")
+    .post(reviewPolicyController.reviewPolicyPost)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//review subscribed policy
+// Client review subscribed policy
+router.route("/clientReviewer")
+    .get(clientReviewPolicyController.clientReviewerGet)
+    .all(errorHandlingController.MethodNotAllowed);
+router.route("/clientReviewer")
+    .post(clientReviewPolicyController.clientReviewerPost)
+    .all(errorHandlingController.MethodNotAllowed);
 
-router.get("/getAllPolicies/", policyController.getAllPolicies);
-router.get("/getOnePolicy/:id", policyController.getOnePolicy);
-router.get("/reviewPolicy", reviewPolicyController.reviewPolicyGet);
-router.post("/reviewPolicy", reviewPolicyController.reviewPolicyPost);
+// Assessment Result
+router.route("/assessmentResult")
+    .post(assessmentResultController.PostResult)
+    .all(errorHandlingController.MethodNotAllowed);
 
-//Client review subscribed policy
-router.get("/clientReviewer", clientReviewPolicyController.clientReviewerGet);
-router.post("/clientReviewer", clientReviewPolicyController.clientReviewerPost);
+// Handler for 404. This method must be placed after all other routes
+router.use(errorHandlingController.NotFound);
 
-//Assessment Result
-router.post("/assessmentResult",assessmentResultController.PostResult);
 module.exports = router;
