@@ -5,113 +5,106 @@ const User = mongoose.model('User');
 const Policy = mongoose.model('Policy');
 
 exports.companyGet = (req, res) => {
-    const companyDetails = req.query;
-    console.log("Type" + companyDetails._id);
-    //Get user information to get the company ID
     if (req.query.type === "company") {
-        console.log("I am here");
-        Company.findOne({
-            company_name: req.query._id
-        },
-            function (err, response) {
-                if (!err) {
-                    // console.log("company: " + response);
-                    res.json(response);
-                } else {
-                    console.log(err);
-                }
+        Company.findOne({company_name: req.query.company_name})
+            .exec()
+            .then(oneCompany => {
+                res.json(oneCompany);
+            })
+            .catch(err => {
+                console.log(err);
             });
     } else if (req.query.type === "companyAll") {
-        Company.find({ status: true },
-            function (err, response) {
-                if (!err) {
-                    // console.log("company: " + response);
-                    res.json(response);
-                } else {
-                    console.log(err);
-                }
+        Company.find({status: true})
+            .exec()
+            .then(companies => {
+                res.json(companies);
+            })
+            .catch(err => {
+                console.log(err);
             });
     } else if (req.query.type === "companyAllInactive") {
-        Company.find({ status: false },
-            function (err, response) {
-                if (!err) {
-                    // console.log("company: " + response);
-                    res.json(response);
-                } else {
-                    console.log(err);
-                }
+        Company.find({status: false})
+            .exec()
+            .then(companies => {
+                res.json(companies)
+            })
+            .catch(err => {
+                console.log(err);
             });
     } else {
         console.log("My role is user" + req.query._id)
-        User.findOne({
-            "_id": req.query._id
-        },
-            function (err, response) {
-                if (!err) {
-                    console.log("user: " + response);
-                    res.json(response);
-                } else {
-                    console.log(err);
-                }
+        User.findOne({"_id": req.query._id})
+            .exec()
+            .then(user => {
+                console.log("user: " + user);
+                res.json(user);
+            })
+            .catch(err => {
+                console.log(err);
             });
     }
 };
 
+// below is kinda incomplete version of REST
 exports.companyPost = (req, res) => {
     let matchPolicy = req.body;
     console.log("Policies:" + matchPolicy.policies);
-    // console.log(matchPolicy.policies);
-    // console.log("company id: " + matchPolicy.id);
+    // Here we can see POST
     if (matchPolicy.status === "new") {
         console.log("I am new");
-        Company.findByIdAndUpdate(matchPolicy.id, {
-            "$push": {
-                "match_policy": matchPolicy.policies
-            }
-        }, function (err, response) {
-            if (!err) {
+        Company.findByIdAndUpdate(matchPolicy.id,
+            {
+                "$push": {
+                    "match_policy": matchPolicy.policies
+                }
+            })
+            .exec()
+            .then(() => {
                 res.json({
                     result: "success"
                 });
-            } else {
+            })
+            .catch(err => {
                 console.log(err);
-            }
-        });
-    }
-    else if (matchPolicy.status === "delete") {
+            });
+    // for some reason there is a user deletion in snippet below
+    } else if (matchPolicy.status === "delete") {
         console.log("Status" + matchPolicy.status);
         User.findByIdAndRemove({
             _id: matchPolicy.id
-        },
-            function (error, response) {
-                if (!error) {
-                    console.log("response: " + response);
-                    res.json({
-                        status: "success",
-                        message: "Delete Successful!"
-                    });
-                    //console.log(response);
-                } else {
-                    console.log(err);
-                }
+        })
+            .exec()
+            .then(response => {
+                console.log("response: " + response);
+                res.json({
+                    status: "success",
+                    message: "Delete Successful!"
+                });
+            })
+            .catch(err => {
+                console.log(err);
             });
-
-    }
-    else {
-        Company.findOneAndUpdate({ "company_name": matchPolicy.name }, {
-            "$push": {
-                "match_policy": matchPolicy.policies
-            }, upsert: true,
-            new: true
-        }, function (err, response) {
-            if (!err) {
+        // And of course we need UPDATE
+    } else {
+        Company.findOneAndUpdate({"company_name": matchPolicy.name},
+            {
+                "$push": {
+                    "match_policy": matchPolicy.policies
+                },
+                upsert: true,
+                new: true
+            })
+            .exec()
+            .then(() => {
                 res.json({
                     result: "success"
                 });
-            } else {
-                console.log(err);
-            }
-        });
+            })
+            .catch(err => {
+                    console.log(err);
+                }
+            );
     }
 }
 
@@ -131,6 +124,7 @@ function setupUsername(bNameInput, nzbnInput) {
     username = f2 + nzbnInput + l2;
     return username;
 }
+
 function changeUppercase(inputString) {
     re = inputString.split("");
     lengths = re.length;
@@ -164,7 +158,7 @@ const transporter = Nodemailer.createTransport({
 exports.registerPost = (req, res) => {
     let RegInfo = req.body; //Get the parsed information
     console.log(RegInfo);
-    Company.findOne({ nzbn: RegInfo.nzbnInput }, function (error, company) {
+    Company.findOne({nzbn: RegInfo.nzbnInput}, function (error, company) {
         //Save the Address
         let Address = "";
         Address = RegInfo.bAddr + " " + RegInfo.bAddr2 + " " + RegInfo.bCity + " " + RegInfo.bState + " " + RegInfo.bZip;
@@ -225,10 +219,15 @@ function postCreateNewUser(err) {
         from: 'itpsychiatrist.policymanager@gmail.com', // sender address
         to: NewCompany.company_email, // list of receivers
         subject: 'Your IT Policy Manager Login Credentials', // Subject line
-        html: '<h2>Welcome to IT Policy Manager!</h2>' + '<p> Thank you for registering. <br>' +
-            'Below is your login details, use these credential to acces your IT Policy Manager Account.<br><br>' +
-            'User Name:' + NewUser.username + ' <br> Temporary Password: ' + NewUser.password + ' </p>' +
-            '<p>Please click on the link to sign-in. </p> <a href="http://localhost:3000/signin-page">IT Policy Manager Login</a>  '
+        html:
+            '<h2>Welcome to IT Policy Manager!</h2>' +
+            '<p> Thank you for registering. <br>' +
+            'Below is your login details, use these credential to acces your IT Policy Manager Account.<br>' +
+            '<br>' +
+            'User Name:' + NewUser.username + ' <br>' +
+            'Temporary Password: ' + NewUser.password + ' </p>' +
+            '<p>Please click on the link to sign-in. </p>' +
+            '<a href="http://localhost:3000/signin-page">IT Policy Manager Login</a>  '
     };
     transporter.sendMail(mailOptions, function (err, info) {
         if (err)
@@ -244,30 +243,24 @@ exports.companyDelete = (req, res) => {
         _id: data.companyId
     }, function (error, response) {
         if (!error) {
-            User.findOneAndRemove({ company: data.companyId }, function (error2, response2) {
+            User.findOneAndRemove({company: data.companyId}, function (error2, response2) {
                 if (!error2) {
                     res.json({
                         status: "success"
                     })
-                }
-                else {
+                } else {
                     console.log(error2)
                 }
             })
-
-        }
-        else {
+        } else {
             console.log(error)
         }
     })
 }
 
-
 exports.getSuggestedPolicy = async (req, res) => {
-
     let user_id = req.query.user_id;
-
-    let query = await User.findOne({ _id: user_id })
+    let query = await User.findOne({_id: user_id})
         .populate({
             path: 'company',
             model: 'Company',
@@ -276,7 +269,5 @@ exports.getSuggestedPolicy = async (req, res) => {
                 model: 'Policy'
             }
         });
-
     res.json(query);
-
 }
